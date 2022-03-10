@@ -1,0 +1,31 @@
+{
+    "name": "file-off-rest-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon app.ts",
+        "build": "tsc --project ./"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Sedonn/file-off-REST-API.git"
+    },
+    "keywords": [],
+    "author": "Sedonn (https://github.com/Sedonn)",
+    "bugs": {
+        "url": "https://github.com/Sedonn/file-off-REST-API/issues"
+    },
+    "homepage": "https://github.com/Sedonn/file-off-REST-API#readme",
+    "dependencies": {
+        "express": "^4.17.3"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^17.0.21",
+        "nodemon": "^2.0.15",
+        "ts-node": "^10.7.0",
+        "typescript": "^4.6.2"
+    }
+}
