@@ -14,9 +14,9 @@ export module FileControllers {
                 })
             );
 
-            res.json({ status: 'uploaded' });
+            return res.json({ status: 'uploaded' });
         } else {
-            res.status(400).json({ error: 'file upload error' });
+            return res.status(400).json({ error: 'file upload error' });
         }
     };
 
@@ -34,10 +34,10 @@ export module FileControllers {
 
                 bucket.openDownloadStream(file._id).pipe(res);
             } else {
-                res.status(404).json({ error: 'file not found' });
+                return res.status(404).json({ error: 'file not found' });
             }
         } else {
-            res.status(400).json({ error: 'bad request' });
+            return res.status(400).json({ error: 'bad request' });
         }
     };
 }

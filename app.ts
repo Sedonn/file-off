@@ -3,6 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import fileRouter from './Routes/file.routes';
+import userRouter from './Routes/user.routes';
 
 dotenv.config();
 
@@ -11,7 +12,9 @@ const PORT: number = +process.env.PORT!;
 
 const app = express();
 
-app.use('/api', fileRouter);
+app.use(express.urlencoded({ extended: true }));
+
+app.use('/api', fileRouter, userRouter);
 
 mongoose
     .connect(DB_URL)
