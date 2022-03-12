@@ -38,9 +38,11 @@ export module UserControllers {
         }
 
         const payload = { id: user._id };
-
         const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { expiresIn: '1d' });
 
         return res.status(200).json({ message: 'user authorized', token });
     };
+
+    export const getProfile = async (req: Request, res: Response) => 
+        res.json(await UserModel.findOne({_id: req.userId}, {_id: 0, password: 0, __v: 0}));
 }
