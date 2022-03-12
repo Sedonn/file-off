@@ -14,7 +14,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api', fileRouter, userRouter);
+app.use('/api', userRouter, fileRouter);
 
 mongoose
     .connect(DB_URL)

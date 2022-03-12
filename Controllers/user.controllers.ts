@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import { Request, Response } from 'express';
 
-import UserModel from '../Models/user.models';
+import UserModel from '../Models/user.model';
 
 export module UserControllers {
     export const registerUser = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
@@ -37,12 +37,8 @@ export module UserControllers {
             return res.status(401).json({ error: 'auth failed' });
         }
 
-        const payload = {
-            _id: user._id,
-            name: user.name,
-            login: user.login,
-            email: user.email,
-        };
+        const payload = { id: user._id };
+
         const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { expiresIn: '1d' });
 
         return res.status(200).json({ message: 'user authorized', token });
