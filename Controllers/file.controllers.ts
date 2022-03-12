@@ -56,6 +56,26 @@ export module FileControllers {
         return res.status(200);
     };
 
+    export const deleteFile = async (req: Request, res: Response) => {
+        if (!req.body.filename) {
+            return res.status(400).json({ error: 'bad request' });
+        }
+
+        const db = mongoose.connection.db;
+        const bucket = new mongoose.mongo.GridFSBucket(db);
+        const fileId = (await db.collection('fs.files').findOne({
+            $and: [{ filename: req.body.filename }, { 'metadata.senderId': req.userId }],
+        }))?._id;
+
+        if (!fileId){
+            return res.status(404).json({ error: 'file not found' });
+        }
+
+        await bucket.delete(fileId);
+
+        return res.status(200).json({ message: 'file deleted' });
+    };
+
     export const userFiles = async (req: Request, res: Response) => {
         const files = await mongoose.connection.db
             .collection('fs.files')
