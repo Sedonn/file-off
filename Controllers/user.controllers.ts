@@ -43,6 +43,9 @@ export module UserControllers {
         return res.status(200).json({ message: 'user authorized', token });
     };
 
-    export const getProfile = async (req: Request, res: Response) => 
-        res.json(await UserModel.findOne({_id: req.userId}, {_id: 0, password: 0, __v: 0}));
+    export const getProfile = async (req: Request, res: Response) =>
+        res.status(200).json(await UserModel.findOne({ _id: req.userId }, { _id: 0, password: 0, __v: 0 }));
+
+    export const authResult = async (req: Request, res: Response) => 
+        res.status(200).json({ message: 'auth successful' });
 }

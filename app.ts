@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import fileRouter from './Routes/file.routes';
 import userRouter from './Routes/user.routes';
@@ -13,6 +14,12 @@ const PORT: number = +process.env.PORT!;
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+    cors({
+        origin: process.env.CORS_ALLOW_ORIGINS,
+    })
+);
 
 app.use('/api', userRouter, fileRouter);
 
