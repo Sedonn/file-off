@@ -6,7 +6,7 @@ import { FileMetadata } from '../@types/file-off/interfaces';
 import UserModel from '../Models/user.model';
 
 export module FileControllers {
-    export const uploadFile = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+    export const uploadFile = async (req: Request, res: Response) => {
         if (!req.file) {
             return res.status(400).json({ error: 'file upload error' });
         }
@@ -26,13 +26,38 @@ export module FileControllers {
             receiverId: reciever._id,
         };
 
-        const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db);
-        streamifier.createReadStream(req.file.buffer).pipe(bucket.openUploadStream(req.file.originalname, { metadata }));
+        const db = mongoose.connection.db;
+        const bucket = new mongoose.mongo.GridFSBucket(db);
+        const uploadStream = streamifier.createReadStream(req.file.buffer).pipe(bucket.openUploadStream(req.file.originalname, { metadata }));
+        uploadStream.on('finish', async () => {
+            const fileCollection = db.collection('fs.files');
+            const file = await fileCollection.aggregate([
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'metadata.receiverId',
+                        foreignField: '_id',
+                        as: 'receiverData',
+                    },
+                },
+                {
+                    $match: { _id: uploadStream.id },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        uploadDate: 1,
+                        filename: 1,
+                        'receiverData.login': 1,
+                    },
+                },
+            ]).toArray();
 
-        return res.status(200).json({ message: 'uploaded' });
+            res.status(200).json(file[0]).end();
+        });
     };
 
-    export const downloadFile = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+    export const downloadFile = async (req: Request, res: Response) => {
         if (!req.query.filename) {
             return res.status(400).json({ error: 'bad request' });
         }
@@ -51,9 +76,11 @@ export module FileControllers {
         res.setHeader('Content-disposition', `attachment; filename=${file.filename}`);
         res.setHeader('Content-type', file.metadata.mimetype);
 
-        bucket.openDownloadStream(file._id).pipe(res);
-
-        return res.status(200);
+        const downloadStream = bucket.openDownloadStream(file._id).pipe(res);
+        downloadStream.on('finish', () => {
+            bucket.delete(file._id);
+            res.status(200).end();
+        });
     };
 
     export const deleteFile = async (req: Request, res: Response) => {
@@ -63,15 +90,15 @@ export module FileControllers {
 
         const db = mongoose.connection.db;
         const bucket = new mongoose.mongo.GridFSBucket(db);
-        const fileId = (await db.collection('fs.files').findOne({
+        const file = await db.collection('fs.files').findOne({
             $and: [{ filename: req.body.filename }, { 'metadata.senderId': req.userId }],
-        }))?._id;
+        });
 
-        if (!fileId){
+        if (!file) {
             return res.status(404).json({ error: 'file not found' });
         }
 
-        await bucket.delete(fileId);
+        await bucket.delete(file._id);
 
         return res.status(200).json({ message: 'file deleted' });
     };
