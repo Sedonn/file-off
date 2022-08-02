@@ -103,7 +103,7 @@ export module FileControllers {
         return res.status(200).json({ message: 'file deleted' });
     };
 
-    export const userFiles = async (req: Request, res: Response) => {
+    export const getUserFiles = async (req: Request, res: Response) => {
         const files = await mongoose.connection.db
             .collection('fs.files')
             .aggregate([
@@ -136,7 +136,7 @@ export module FileControllers {
         return res.status(200).json(files);
     };
 
-    export const userDownloads = async (req: Request, res: Response) => {
+    export const getUserDownloads = async (req: Request, res: Response) => {
         const files = await mongoose.connection.db
             .collection('fs.files')
             .aggregate([

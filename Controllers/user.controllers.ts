@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 import UserModel from '../Models/user.model';
 
 export module UserControllers {
-    export const registerUser = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+    export const registerUser = async (req: Request, res: Response) => {
         if (!(req.body.name && req.body.surname && req.body.login && req.body.email && req.body.password)) {
             return res.status(400).json({ error: 'bad request' });
         }
@@ -27,7 +27,7 @@ export module UserControllers {
         return res.status(200).json({ message: 'user created' });
     };
 
-    export const loginUser = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
+    export const loginUser = async (req: Request, res: Response) => {
         if (!(req.body.login && req.body.password)) {
             return res.status(400).json({ error: 'bad request' });
         }

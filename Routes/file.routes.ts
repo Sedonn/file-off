@@ -11,7 +11,7 @@ const upload = multer();
 router.post('/upload-file', checkAuth, upload.single('file'), FileControllers.uploadFile);
 router.get('/download-file', checkAuth, FileControllers.downloadFile);
 router.delete('/delete-file', checkAuth, FileControllers.deleteFile)
-router.get('/files', checkAuth, FileControllers.userFiles);
-router.get('/downloads', checkAuth, FileControllers.userDownloads);
+router.get('/files', checkAuth, FileControllers.getUserFiles);
+router.get('/downloads', checkAuth, FileControllers.getUserDownloads);
 
 export default router;
