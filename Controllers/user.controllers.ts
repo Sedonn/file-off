@@ -7,14 +7,6 @@ import UserModel from '../Models/user.model';
 
 export module UserControllers {
     export const registerUser = async (req: Request, res: Response) => {
-        if (!(req.body.name && req.body.surname && req.body.login && req.body.email && req.body.password)) {
-            return res.status(400).json({ error: 'bad request' });
-        }
-
-        if (await UserModel.findOne({ login: req.body.login })) {
-            return res.status(409).json({ error: 'login is existing' });
-        }
-
         const user = new UserModel({
             name: req.body.name,
             surname: req.body.surname,
@@ -28,19 +20,15 @@ export module UserControllers {
     };
 
     export const loginUser = async (req: Request, res: Response) => {
-        if (!(req.body.login && req.body.password)) {
-            return res.status(400).json({ error: 'bad request' });
-        }
-
         const user = await UserModel.findOne({ login: req.body.login });
         if (!user || user.password !== SHA256(req.body.password).toString()) {
-            return res.status(401).json({ error: 'auth failed' });
+            return res.status(401).json({ error: ['Auth failed.'] });
         }
 
         const payload = { id: user._id };
         const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { expiresIn: '1d' });
 
-        return res.status(200).json({ message: 'user authorized', token });
+        return res.status(200).json({ message: 'User authorized.', token });
     };
 
     export const getProfile = async (req: Request, res: Response) =>
