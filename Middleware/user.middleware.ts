@@ -4,13 +4,13 @@ import { Request, Response, NextFunction } from 'express';
 
 import UserModel from '../Models/user.model';
 
-const userValidationResult = validationResult.withDefaults({
-    formatter: (error) => {
-        return error.msg;
-    },
-});
-
 const userValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
+    const userValidationResult = validationResult.withDefaults({
+        formatter: (error) => {
+            return error.msg;
+        },
+    });
+    
     const errors = userValidationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ error: errors.array() });

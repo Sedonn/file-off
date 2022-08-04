@@ -7,28 +7,21 @@ import UserModel from '../Models/user.model';
 
 export module FileControllers {
     export const uploadFile = async (req: Request, res: Response) => {
-        if (!req.file) {
-            return res.status(400).json({ error: 'file upload error' });
-        }
-
-        if (!req.body.reciever) {
-            return res.status(400).json({ error: 'bad request' });
-        }
-
         const reciever = await UserModel.findOne({ login: req.body.reciever });
         if (!reciever) {
             return res.status(404).json({ error: 'reciever not found' });
         }
 
+        const file = req.file!;
         const metadata: FileMetadata = {
-            mimetype: req.file.mimetype,
+            mimetype: file.mimetype,
             senderId: req.userId,
             receiverId: reciever._id,
         };
 
         const db = mongoose.connection.db;
         const bucket = new mongoose.mongo.GridFSBucket(db);
-        const uploadStream = streamifier.createReadStream(req.file.buffer).pipe(bucket.openUploadStream(req.file.originalname, { metadata }));
+        const uploadStream = streamifier.createReadStream(file.buffer).pipe(bucket.openUploadStream(file.originalname, { metadata }));
         uploadStream.on('finish', async () => {
             const fileCollection = db.collection('fs.files');
             const file = await fileCollection.aggregate([
@@ -58,10 +51,6 @@ export module FileControllers {
     };
 
     export const downloadFile = async (req: Request, res: Response) => {
-        if (!req.query.filename) {
-            return res.status(400).json({ error: 'bad request' });
-        }
-
         const db = mongoose.connection.db;
         const bucket = new mongoose.mongo.GridFSBucket(db);
         const fileCollection = db.collection('fs.files');
@@ -84,10 +73,6 @@ export module FileControllers {
     };
 
     export const deleteFile = async (req: Request, res: Response) => {
-        if (!req.body.filename) {
-            return res.status(400).json({ error: 'bad request' });
-        }
-
         const db = mongoose.connection.db;
         const bucket = new mongoose.mongo.GridFSBucket(db);
         const file = await db.collection('fs.files').findOne({
