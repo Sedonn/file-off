@@ -1,9 +1,8 @@
-import mongoose from 'mongoose';
-import streamifier from 'streamifier';
-
 import { Request, Response } from 'express';
 import { FileMetadata } from '../@types/file-off/interfaces';
+
 import UserModel from '../Models/user.model';
+import FileStorage from '../Models/fileStorage';
 
 export module FileControllers {
     export const uploadFile = async (req: Request, res: Response) => {
@@ -11,53 +10,24 @@ export module FileControllers {
         if (!reciever) {
             return res.status(404).json({ error: 'reciever not found' });
         }
-
+        
+        const fileStorage = new FileStorage();
         const file = req.file!;
         const metadata: FileMetadata = {
             mimetype: file.mimetype,
             senderId: req.userId,
             receiverId: reciever._id,
         };
-
-        const db = mongoose.connection.db;
-        const bucket = new mongoose.mongo.GridFSBucket(db);
-        const uploadStream = streamifier.createReadStream(file.buffer).pipe(bucket.openUploadStream(file.originalname, { metadata }));
+        const uploadStream = fileStorage.writeFile(file, metadata);
         uploadStream.on('finish', async () => {
-            const fileCollection = db.collection('fs.files');
-            const file = await fileCollection.aggregate([
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'metadata.receiverId',
-                        foreignField: '_id',
-                        as: 'receiverData',
-                    },
-                },
-                {
-                    $match: { _id: uploadStream.id },
-                },
-                {
-                    $project: {
-                        _id: 0,
-                        uploadDate: 1,
-                        filename: 1,
-                        'receiverData.login': 1,
-                    },
-                },
-            ]).toArray();
-
-            res.status(200).json(file[0]).end();
+            res.status(200).json(await fileStorage.getUploadData(uploadStream.id)).end();
         });
     };
 
     export const downloadFile = async (req: Request, res: Response) => {
-        const db = mongoose.connection.db;
-        const bucket = new mongoose.mongo.GridFSBucket(db);
-        const fileCollection = db.collection('fs.files');
-        const file = await fileCollection.findOne({
-            $and: [{ filename: req.query.filename }, { 'metadata.receiverId': req.userId }],
-        });
-
+        const fileStorage = new FileStorage();
+        
+        const file = await fileStorage.getFileByReceiver(req.userId, req.query.filename!.toString());
         if (!file) {
             return res.status(404).json({ error: 'file not found' });
         }
@@ -65,55 +35,30 @@ export module FileControllers {
         res.setHeader('Content-disposition', `attachment; filename=${file.filename}`);
         res.setHeader('Content-type', file.metadata.mimetype);
 
-        const downloadStream = bucket.openDownloadStream(file._id).pipe(res);
-        downloadStream.on('finish', () => {
-            bucket.delete(file._id);
+        const downloadStream = fileStorage.getFileDownloadStream(file._id).pipe(res);
+        downloadStream.on('finish', async () => {
+            await fileStorage.deleteFile(file._id);
             res.status(200).end();
         });
     };
 
     export const deleteFile = async (req: Request, res: Response) => {
-        const db = mongoose.connection.db;
-        const bucket = new mongoose.mongo.GridFSBucket(db);
-        const file = await db.collection('fs.files').findOne({
-            $and: [{ filename: req.body.filename }, { 'metadata.senderId': req.userId }],
-        });
+        const fileStorage = new FileStorage();
 
+        const file = await fileStorage.getFileBySender(req.userId, req.body.filename);
         if (!file) {
             return res.status(404).json({ error: 'file not found' });
         }
 
-        await bucket.delete(file._id);
+        await fileStorage.deleteFile(file._id);
 
         return res.status(200).json({ message: 'file deleted' });
     };
 
     export const getUserFiles = async (req: Request, res: Response) => {
-        const files = await mongoose.connection.db
-            .collection('fs.files')
-            .aggregate([
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'metadata.receiverId',
-                        foreignField: '_id',
-                        as: 'receiverData',
-                    },
-                },
-                {
-                    $match: { 'metadata.senderId': req.userId },
-                },
-                {
-                    $project: {
-                        _id: 0,
-                        uploadDate: 1,
-                        filename: 1,
-                        'receiverData.login': 1,
-                    },
-                },
-            ])
-            .toArray();
+        const fileStorage = new FileStorage();
 
+        const files = await fileStorage.getUploadFiles(req.userId);
         if (!files.length) {
             return res.status(404).json({ error: 'files not found' });
         }
@@ -122,31 +67,9 @@ export module FileControllers {
     };
 
     export const getUserDownloads = async (req: Request, res: Response) => {
-        const files = await mongoose.connection.db
-            .collection('fs.files')
-            .aggregate([
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'metadata.senderId',
-                        foreignField: '_id',
-                        as: 'senderData',
-                    },
-                },
-                {
-                    $match: { 'metadata.receiverId': req.userId },
-                },
-                {
-                    $project: {
-                        _id: 0,
-                        uploadDate: 1,
-                        filename: 1,
-                        'senderData.login': 1,
-                    },
-                },
-            ])
-            .toArray();
+        const fileStorage = new FileStorage();
 
+        const files = await fileStorage.getDownloadFiles(req.userId);
         if (!files.length) {
             return res.status(404).json({ error: 'files not found' });
         }
