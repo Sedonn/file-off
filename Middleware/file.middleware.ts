@@ -17,33 +17,31 @@ const fileValidatorHandler = (req: Request, res: Response, next: NextFunction) =
     next();
 };
 
-export module FileMiddleware {
-    export const uploadFileValidator = [
-        checkSchema({
-            file: {
-                custom: {
-                    options: (value, { req }) => req.file,
-                    errorMessage: 'File upload error.',
-                },
+export const uploadFileValidator = [
+    checkSchema({
+        file: {
+            custom: {
+                options: (value, { req }) => req.file,
+                errorMessage: 'File upload error.',
             },
-        }),
-        body('reciever')
-            .exists({ checkFalsy: true })
-            .withMessage('Reciever field can not be empty.'),
-        fileValidatorHandler,
-    ];
+        },
+    }),
+    body('reciever')
+        .exists({ checkFalsy: true })
+        .withMessage('Reciever field can not be empty.'),
+    fileValidatorHandler,
+];
 
-    export const downloadFileValidator = [
-        query('filename')
-            .exists({ checkFalsy: true })
-            .withMessage('Filename field can not be empty.'),
-        fileValidatorHandler
-    ];
+export const downloadFileValidator = [
+    query('filename')
+        .exists({ checkFalsy: true })
+        .withMessage('Filename field can not be empty.'),
+    fileValidatorHandler
+];
 
-    export const deleteFileValidator = [
-        body('filename')
-            .exists({ checkFalsy: true })
-            .withMessage('Filename field can not be empty.'),
-        fileValidatorHandler
-    ];
-}
+export const deleteFileValidator = [
+    body('filename')
+        .exists({ checkFalsy: true })
+        .withMessage('Filename field can not be empty.'),
+    fileValidatorHandler
+];

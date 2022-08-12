@@ -27,34 +27,32 @@ const isLoginExists: CustomValidator = async (login) => {
     return true;
 }
 
-export module UserMiddleware {
-    export const registerValidator = [
-        body('name')
-            .exists({checkFalsy: true})
-            .withMessage('Name field can not be empty.'),
-        body('surname')
-            .exists({checkFalsy: true})
-            .withMessage('Surname field can not be empty.'),
-        body('login')
-            .exists({checkFalsy: true})
-            .withMessage('Login field can not be empty.')
-            .custom(isLoginExists),
-        body('email')
-            .exists({checkFalsy: true})
-            .withMessage('Email field can not be empty.'),
-        body('password')
-            .exists({checkFalsy: true})
-            .withMessage('Password field can not be empty.'),
-            userValidatorHandler
-    ];
+export const registerValidator = [
+    body('name')
+        .exists({checkFalsy: true})
+        .withMessage('Name field can not be empty.'),
+    body('surname')
+        .exists({checkFalsy: true})
+        .withMessage('Surname field can not be empty.'),
+    body('login')
+        .exists({checkFalsy: true})
+        .withMessage('Login field can not be empty.')
+        .custom(isLoginExists),
+    body('email')
+        .exists({checkFalsy: true})
+        .withMessage('Email field can not be empty.'),
+    body('password')
+        .exists({checkFalsy: true})
+        .withMessage('Password field can not be empty.'),
+        userValidatorHandler
+];
 
-    export const loginValidator = [
-        body('login')
-            .exists({ checkFalsy: true })
-            .withMessage('Login field can not be empty.'),
-        body('password')
-            .exists({ checkFalsy: true })
-            .withMessage('Password field can not be empty.'),
-            userValidatorHandler
-    ];
-}
+export const loginValidator = [
+    body('login')
+        .exists({ checkFalsy: true })
+        .withMessage('Login field can not be empty.'),
+    body('password')
+        .exists({ checkFalsy: true })
+        .withMessage('Password field can not be empty.'),
+        userValidatorHandler
+];

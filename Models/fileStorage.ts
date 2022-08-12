@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import streamifier from 'streamifier';
 
-import { ObjectId as BSONObjectId} from 'bson';
+import { ObjectId as BSONObjectId } from 'bson';
 import { FileMetadata } from '../@types/file-off/interfaces';
 import { Types } from 'mongoose';
 
@@ -19,10 +19,9 @@ class FileStorage {
     }
 
     public writeFile(file: Express.Multer.File, metadata: FileMetadata) {
-        return streamifier.createReadStream(file.buffer)
-            .pipe(this._bucket.openUploadStream(file.originalname, { metadata }));
+        return streamifier.createReadStream(file.buffer).pipe(this._bucket.openUploadStream(file.originalname, { metadata }));
     }
-    
+
     public async getFileByReceiver(receiverId: Types.ObjectId, filename: string) {
         return this._collection.findOne({
             $and: [{ filename: filename }, { 'metadata.receiverId': receiverId }],
@@ -40,31 +39,36 @@ class FileStorage {
     }
 
     public async getUploadData(fileId: BSONObjectId) {
-        return (await this._collection.aggregate([
-            {
-                $lookup: {
-                    from: 'users',
-                    localField: 'metadata.receiverId',
-                    foreignField: '_id',
-                    as: 'receiverData',
+        return this._collection
+            .aggregate([
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'metadata.receiverId',
+                        foreignField: '_id',
+                        as: 'receiverData',
+                    },
                 },
-            },
-            {
-                $match: { _id: fileId },
-            },
-            {
-                $project: {
-                    _id: 0,
-                    uploadDate: 1,
-                    filename: 1,
-                    'receiverData.login': 1,
+                {
+                    $match: { _id: fileId },
                 },
-            },
-        ]).toArray())[0];
+                {
+                    $project: {
+                        _id: 0,
+                        uploadDate: 1,
+                        filename: 1,
+                        'receiverData.login': 1,
+                    },
+                },
+                {
+                    $limit: 1,
+                },
+            ])
+            .next();
     }
 
     public async getUploadFiles(userId: Types.ObjectId) {
-        return await mongoose.connection.db
+        return mongoose.connection.db
             .collection('fs.files')
             .aggregate([
                 {
@@ -91,7 +95,7 @@ class FileStorage {
     }
 
     public async getDownloadFiles(userId: Types.ObjectId) {
-        return await mongoose.connection.db
+        return mongoose.connection.db
             .collection('fs.files')
             .aggregate([
                 {

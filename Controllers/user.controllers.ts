@@ -5,35 +5,33 @@ import { Request, Response } from 'express';
 
 import UserModel from '../Models/user.model';
 
-export module UserControllers {
-    export const registerUser = async (req: Request, res: Response) => {
-        const user = new UserModel({
-            name: req.body.name,
-            surname: req.body.surname,
-            login: req.body.login,
-            email: req.body.email,
-            password: SHA256(req.body.password).toString(),
-        });
-        await user.save();
+export const registerUser = async (req: Request, res: Response) => {
+    const user = new UserModel({
+        name: req.body.name,
+        surname: req.body.surname,
+        login: req.body.login,
+        email: req.body.email,
+        password: SHA256(req.body.password).toString(),
+    });
+    await user.save();
 
-        return res.status(200).json({ message: 'user created' });
-    };
+    return res.status(200).json({ message: 'user created' });
+};
 
-    export const loginUser = async (req: Request, res: Response) => {
-        const user = await UserModel.findOne({ login: req.body.login });
-        if (!user || user.password !== SHA256(req.body.password).toString()) {
-            return res.status(401).json({ error: ['Auth failed.'] });
-        }
+export const loginUser = async (req: Request, res: Response) => {
+    const user = await UserModel.findOne({ login: req.body.login });
+    if (!user || user.password !== SHA256(req.body.password).toString()) {
+        return res.status(401).json({ error: ['Auth failed.'] });
+    }
 
-        const payload = { id: user._id };
-        const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { expiresIn: '1d' });
+    const payload = { id: user._id };
+    const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { expiresIn: '1d' });
 
-        return res.status(200).json({ message: 'User authorized.', token });
-    };
+    return res.status(200).json({ message: 'User authorized.', token });
+};
 
-    export const getProfile = async (req: Request, res: Response) =>
-        res.status(200).json(await UserModel.findOne({ _id: req.userId }, { _id: 0, password: 0, __v: 0 }));
+export const getProfile = async (req: Request, res: Response) =>
+    res.status(200).json(await UserModel.findOne({ _id: req.userId }, { _id: 0, password: 0, __v: 0 }));
 
-    export const authResult = async (req: Request, res: Response) => 
-        res.status(200).json({ message: 'auth successful' });
-}
+export const authResult = async (req: Request, res: Response) => 
+    res.status(200).json({ message: 'auth successful' });

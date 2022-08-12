@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 interface FileMetadata {
-    mimetype: String;
+    mimetype: string;
     senderId: mongoose.Types.ObjectId;
     receiverId: mongoose.Types.ObjectId;
 }
