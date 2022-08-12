@@ -13,6 +13,10 @@ export module FileControllers {
         
         const fileStorage = new FileStorage();
         const file = req.file!;
+        if (await fileStorage.getFileBySender(req.userId, file.originalname)) {
+            return res.status(404).json({ error: 'file is already exists' });
+        }
+        
         const metadata: FileMetadata = {
             mimetype: file.mimetype,
             senderId: req.userId,

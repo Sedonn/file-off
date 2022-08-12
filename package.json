@@ -19,13 +19,12 @@
     },
     "homepage": "https://github.com/Sedonn/file-off-REST-API#readme",
     "dependencies": {
-        "@types/express-validator": "^3.0.0",
         "cors": "^2.8.5",
         "crypto-js": "^4.1.1",
         "express": "^4.17.3",
         "express-validator": "^6.14.2",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.2.5",
+        "mongoose": "^6.5.2",
         "multer": "^1.4.4",
         "streamifier": "^0.1.1"
     },
@@ -33,6 +32,7 @@
         "@types/cors": "^2.8.12",
         "@types/crypto-js": "^4.1.1",
         "@types/express": "^4.17.13",
+        "@types/express-validator": "^3.0.0",
         "@types/jsonwebtoken": "^8.5.8",
         "@types/multer": "^1.4.7",
         "@types/node": "^17.0.21",
