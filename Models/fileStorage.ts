@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import streamifier from 'streamifier';
 
 import { ObjectId as BSONObjectId } from 'bson';
-import { FileMetadata } from '../@types/file-off/interfaces';
+import { FileMetadata } from '../@types/file-off';
 import { Types } from 'mongoose';
 
 class FileStorage {

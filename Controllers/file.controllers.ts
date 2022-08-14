@@ -1,19 +1,21 @@
 import { Request, Response } from 'express';
-import { FileMetadata } from '../@types/file-off/interfaces';
+import { FileMetadata } from '../@types/file-off';
 
 import UserModel from '../Models/user.model';
 import FileStorage from '../Models/fileStorage';
 
+import { createErrorMessage, createResultMessage } from '../utils/message.utils';
+
 export const uploadFile = async (req: Request, res: Response) => {
     const reciever = await UserModel.findOne({ login: req.body.reciever });
     if (!reciever) {
-        return res.status(404).json({ error: 'reciever not found' });
+        return res.status(404).json(createErrorMessage('Reciever not found.'));
     }
     
     const fileStorage = new FileStorage();
     const file = req.file!;
     if (await fileStorage.getFileBySender(req.userId, file.originalname)) {
-        return res.status(404).json({ error: 'file is already exists' });
+        return res.status(404).json(createErrorMessage('File is already exists.'));
     }
     
     const metadata: FileMetadata = {
@@ -32,7 +34,7 @@ export const downloadFile = async (req: Request, res: Response) => {
     
     const file = await fileStorage.getFileByReceiver(req.userId, req.query.filename!.toString());
     if (!file) {
-        return res.status(404).json({ error: 'file not found' });
+        return res.status(404).json(createErrorMessage('File not found.'));
     }
 
     res.setHeader('Content-disposition', `attachment; filename=${file.filename}`);
@@ -50,12 +52,12 @@ export const deleteFile = async (req: Request, res: Response) => {
 
     const file = await fileStorage.getFileBySender(req.userId, req.body.filename);
     if (!file) {
-        return res.status(404).json({ error: 'file not found' });
+        return res.status(404).json(createErrorMessage('File not found.'));
     }
 
     await fileStorage.deleteFile(file._id);
 
-    return res.status(200).json({ message: 'file deleted' });
+    return res.status(200).json(createResultMessage('File deleted.'));
 };
 
 export const getUserFiles = async (req: Request, res: Response) => {
@@ -63,7 +65,7 @@ export const getUserFiles = async (req: Request, res: Response) => {
 
     const files = await fileStorage.getUploadFiles(req.userId);
     if (!files.length) {
-        return res.status(404).json({ error: 'files not found' });
+        return res.status(404).json(createErrorMessage('Files not found.'));
     }
 
     return res.status(200).json(files);
@@ -74,7 +76,7 @@ export const getUserDownloads = async (req: Request, res: Response) => {
 
     const files = await fileStorage.getDownloadFiles(req.userId);
     if (!files.length) {
-        return res.status(404).json({ error: 'files not found' });
+        return res.status(404).json(createErrorMessage('Files not found.'));
     }
 
     return res.status(200).json(files);

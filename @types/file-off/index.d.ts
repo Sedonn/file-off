@@ -5,3 +5,11 @@ interface FileMetadata {
     senderId: mongoose.Types.ObjectId;
     receiverId: mongoose.Types.ObjectId;
 }
+
+interface ErrorMessage {
+    error: Array<string>;
+}
+
+interface ResultMessage {
+    message: string;
+}
