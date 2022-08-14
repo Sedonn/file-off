@@ -29,21 +29,27 @@ const isLoginExists: CustomValidator = async (login) => {
 
 export const registerValidator = [
     body('name')
-        .exists({checkFalsy: true})
+        .exists({ checkFalsy: true })
         .withMessage('Name field can not be empty.'),
     body('surname')
-        .exists({checkFalsy: true})
+        .exists({ checkFalsy: true })
         .withMessage('Surname field can not be empty.'),
     body('login')
-        .exists({checkFalsy: true})
+        .exists({ checkFalsy: true })
         .withMessage('Login field can not be empty.')
         .custom(isLoginExists),
     body('email')
-        .exists({checkFalsy: true})
-        .withMessage('Email field can not be empty.'),
+        .exists({ checkFalsy: true })
+        .withMessage('Email field can not be empty.')
+        .bail()
+        .isEmail()
+        .withMessage('Email not valid.'),
     body('password')
-        .exists({checkFalsy: true})
-        .withMessage('Password field can not be empty.'),
+        .exists({ checkFalsy: true })
+        .withMessage('Password field can not be empty.')
+        .bail()
+        .isLength({ min: 8 })
+        .withMessage('Password should be greater than 8 symbols.'),
         userValidatorHandler
 ];
 

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { FileMetadata } from '../@types/file-off';
 
 import UserModel from '../Models/user.model';
@@ -25,7 +26,10 @@ export const uploadFile = async (req: Request, res: Response) => {
     };
     const uploadStream = fileStorage.writeFile(file, metadata);
     uploadStream.on('finish', async () => {
-        res.status(200).json(await fileStorage.getUploadData(uploadStream.id)).end();
+        res.status(200).json(await fileStorage.getUploadData(uploadStream.id));
+    });
+    uploadStream.on('error', async (error: Error) => {
+        res.status(400).json(createErrorMessage(error.message));
     });
 };
 
@@ -45,6 +49,9 @@ export const downloadFile = async (req: Request, res: Response) => {
         await fileStorage.deleteFile(file._id);
         res.status(200).end();
     });
+    downloadStream.on('error', async (error: Error) => {
+        res.status(400).json(createErrorMessage(error.message));
+    });
 };
 
 export const deleteFile = async (req: Request, res: Response) => {
@@ -55,7 +62,12 @@ export const deleteFile = async (req: Request, res: Response) => {
         return res.status(404).json(createErrorMessage('File not found.'));
     }
 
-    await fileStorage.deleteFile(file._id);
+    try {
+        await fileStorage.deleteFile(file._id);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(createErrorMessage("File delete error."))
+    }
 
     return res.status(200).json(createResultMessage('File deleted.'));
 };

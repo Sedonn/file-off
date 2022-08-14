@@ -15,7 +15,13 @@ export const registerUser = async (req: Request, res: Response) => {
         email: req.body.email,
         password: SHA256(req.body.password).toString(),
     });
-    await user.save();
+    try {
+        await user.save();
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json(createErrorMessage('User creating error.'));
+    }
 
     return res.status(200).json(createResultMessage('User created.'));
 };
@@ -35,5 +41,5 @@ export const loginUser = async (req: Request, res: Response) => {
 export const getProfile = async (req: Request, res: Response) =>
     res.status(200).json(await UserModel.findOne({ _id: req.userId }, { _id: 0, password: 0, __v: 0 }));
 
-export const authResult = async (req: Request, res: Response) => 
+export const authResult = async (res: Response) => 
     res.status(200).json(createResultMessage('Auth successful.'));
