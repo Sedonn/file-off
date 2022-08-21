@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import streamifier from 'streamifier';
 
 import { ObjectId as BSONObjectId } from 'bson';
-import { FileMetadata } from '../@types/file-off';
+import { FileMetadata, FileRecord } from '../@types/file-off';
 import { Types } from 'mongoose';
 
 class FileStorage {
@@ -15,7 +15,7 @@ class FileStorage {
     constructor() {
         this._db = mongoose.connection.db;
         this._bucket = new mongoose.mongo.GridFSBucket(this._db);
-        this._collection = this._db.collection(this._COLLECTION_NAME);
+        this._collection = this._db.collection<FileRecord>(this._COLLECTION_NAME);
     }
 
     public writeFile(file: Express.Multer.File, metadata: FileMetadata) {
@@ -83,6 +83,9 @@ class FileStorage {
                     $match: { 'metadata.senderId': userId },
                 },
                 {
+                    $unwind: '$receiverData',
+                },
+                {
                     $project: {
                         _id: 0,
                         uploadDate: 1,
@@ -108,6 +111,9 @@ class FileStorage {
                 },
                 {
                     $match: { 'metadata.receiverId': userId },
+                },
+                {
+                    $unwind: '$senderData',
                 },
                 {
                     $project: {

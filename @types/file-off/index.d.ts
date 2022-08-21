@@ -1,9 +1,17 @@
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
 
 interface FileMetadata {
     mimetype: string;
-    senderId: mongoose.Types.ObjectId;
-    receiverId: mongoose.Types.ObjectId;
+    senderId: Types.ObjectId;
+    receiverId: Types.ObjectId;
+}
+
+interface FileRecord {
+    length: number;
+    chunkSize: number;
+    uploadDate: Date;
+    filename: string;
+    metadata: FileMetadata;
 }
 
 interface ErrorMessage {
