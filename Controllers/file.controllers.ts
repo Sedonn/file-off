@@ -12,11 +12,14 @@ export const uploadFile = async (req: Request, res: Response) => {
     if (!reciever) {
         return res.status(404).json(createErrorMessage('Reciever not found.'));
     }
+    if (reciever.login === (await UserModel.findById(req.userId))?.login) {
+        return res.status(404).json(createErrorMessage('Reciever cant be equal to your login.'));
+    }
     
     const fileStorage = new FileStorage();
     const file = req.file!;
     if (await fileStorage.getFileBySender(req.userId, file.originalname)) {
-        return res.status(404).json(createErrorMessage('File is already exists.'));
+        return res.status(400).json(createErrorMessage('File is already exists.'));
     }
     
     const metadata: FileMetadata = {
