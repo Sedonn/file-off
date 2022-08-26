@@ -43,5 +43,8 @@ export const deleteFileValidator = [
     body('filename')
         .exists({ checkFalsy: true })
         .withMessage('Filename field can not be empty.'),
+    body('reciever')
+        .exists({ checkFalsy: true })
+        .withMessage('Reciever field can not be empty.'),
     fileValidatorHandler
 ];

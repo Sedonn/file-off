@@ -18,7 +18,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     
     const fileStorage = new FileStorage();
     const file = req.file!;
-    if (await fileStorage.getFileBySender(req.userId, file.originalname)) {
+    if (await fileStorage.getFileBySender(req.userId, file.originalname, reciever._id)) {
         return res.status(400).json(createErrorMessage('File is already exists.'));
     }
     
@@ -60,7 +60,12 @@ export const downloadFile = async (req: Request, res: Response) => {
 export const deleteFile = async (req: Request, res: Response) => {
     const fileStorage = new FileStorage();
 
-    const file = await fileStorage.getFileBySender(req.userId, req.body.filename);
+    const reciever = await UserModel.findOne({ login: req.body.reciever });
+    if (!reciever) {
+        return res.status(404).json(createErrorMessage('Reciever not found.'));
+    }
+
+    const file = await fileStorage.getFileBySender(req.userId, req.body.filename, reciever._id);
     if (!file) {
         return res.status(404).json(createErrorMessage('File not found.'));
     }

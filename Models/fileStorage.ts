@@ -28,9 +28,9 @@ class FileStorage {
         });
     }
 
-    public async getFileBySender(senderId: Types.ObjectId, filename: string) {
+    public async getFileBySender(senderId: Types.ObjectId, filename: string, receiverId: Types.ObjectId) {
         return this._collection.findOne({
-            $and: [{ filename: filename }, { 'metadata.senderId': senderId }],
+            $and: [{ filename: filename }, { 'metadata.senderId': senderId }, {'metadata.receiverId': receiverId}],
         });
     }
 
@@ -53,15 +53,15 @@ class FileStorage {
                     $match: { _id: fileId },
                 },
                 {
+                    $unwind: '$receiverData',
+                },
+                {
                     $project: {
                         _id: 0,
                         uploadDate: 1,
                         filename: 1,
                         'receiverData.login': 1,
                     },
-                },
-                {
-                    $limit: 1,
                 },
             ])
             .next();
