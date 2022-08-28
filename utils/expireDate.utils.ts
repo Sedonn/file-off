@@ -5,7 +5,7 @@ const expirePeriods: ExpirePeriods = {
         const now = new Date();
         return new Date(now.setFullYear(now.getFullYear() + 1));
     },
-    mouth: () => {
+    month: () => {
         const now = new Date();
         return new Date(now.setMonth(now.getMonth() + 1));
     },

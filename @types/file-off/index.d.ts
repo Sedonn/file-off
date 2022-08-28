@@ -25,6 +25,6 @@ interface ResultMessage {
 
 interface ExpirePeriods {
     year(): Date,
-    mouth(): Date,
+    month(): Date,
     week(): Date,
 }
