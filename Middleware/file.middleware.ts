@@ -2,6 +2,8 @@ import { body, checkSchema, validationResult, query } from 'express-validator';
 
 import { Request, Response, NextFunction } from 'express';
 
+import { isValidExpirePeriod } from '../utils/expireDate.utils';
+
 const fileValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
     const fileValidationResult = validationResult.withDefaults({
         formatter: (error) => {
@@ -29,6 +31,12 @@ export const uploadFileValidator = [
     body('reciever')
         .exists({ checkFalsy: true })
         .withMessage('Reciever field can not be empty.'),
+    body('expireAt')
+        .exists({ checkFalsy: true })
+        .withMessage('Expire field can not be empty.')
+        .bail()
+        .custom(isValidExpirePeriod)
+        .withMessage('Expire value not valid.'),
     fileValidatorHandler,
 ];
 

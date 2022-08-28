@@ -6,6 +6,7 @@ import UserModel from '../Models/user.model';
 import FileStorage from '../Models/fileStorage';
 
 import { createErrorMessage, createResultMessage } from '../utils/message.utils';
+import { createExpireDate } from '../utils/expireDate.utils';
 
 export const uploadFile = async (req: Request, res: Response) => {
     const reciever = await UserModel.findOne({ login: req.body.reciever });
@@ -26,6 +27,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         mimetype: file.mimetype,
         senderId: req.userId,
         receiverId: reciever._id,
+        expireAt: createExpireDate(req.body.expireAt)
     };
     const uploadStream = fileStorage.writeFile(file, metadata);
     uploadStream.on('finish', async () => {

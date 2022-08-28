@@ -4,6 +4,7 @@ interface FileMetadata {
     mimetype: string;
     senderId: Types.ObjectId;
     receiverId: Types.ObjectId;
+    expireAt: Date
 }
 
 interface FileRecord {
@@ -20,4 +21,10 @@ interface ErrorMessage {
 
 interface ResultMessage {
     message: string;
+}
+
+interface ExpirePeriods {
+    year(): Date,
+    mouth(): Date,
+    week(): Date,
 }

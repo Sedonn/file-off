@@ -16,6 +16,8 @@ class FileStorage {
         this._db = mongoose.connection.db;
         this._bucket = new mongoose.mongo.GridFSBucket(this._db);
         this._collection = this._db.collection<FileRecord>(this._COLLECTION_NAME);
+
+        this._collection.createIndex({ 'metadata.expireAt': 1 }, { expireAfterSeconds: 0 });
     }
 
     public writeFile(file: Express.Multer.File, metadata: FileMetadata) {
