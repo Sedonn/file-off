@@ -32,7 +32,7 @@ class FileStorage {
 
     public async getFileBySender(senderId: Types.ObjectId, filename: string, receiverId: Types.ObjectId) {
         return this._collection.findOne({
-            $and: [{ filename: filename }, { 'metadata.senderId': senderId }, {'metadata.receiverId': receiverId}],
+            $and: [{ filename: filename }, { 'metadata.senderId': senderId }, { 'metadata.receiverId': receiverId }],
         });
     }
 
@@ -63,6 +63,7 @@ class FileStorage {
                         uploadDate: 1,
                         filename: 1,
                         'receiverData.login': 1,
+                        'metadata.expireAt': 1,
                     },
                 },
             ])
@@ -93,6 +94,7 @@ class FileStorage {
                         uploadDate: 1,
                         filename: 1,
                         'receiverData.login': 1,
+                        'metadata.expireAt': 1,
                     },
                 },
             ])
@@ -123,6 +125,7 @@ class FileStorage {
                         uploadDate: 1,
                         filename: 1,
                         'senderData.login': 1,
+                        'metadata.expireAt': 1,
                     },
                 },
             ])
