@@ -14,7 +14,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         return res.status(404).json(createErrorMessage('Reciever not found.'));
     }
     if (reciever.login === (await UserModel.findById(req.userId))?.login) {
-        return res.status(404).json(createErrorMessage('Reciever cant be equal to your login.'));
+        return res.status(400).json(createErrorMessage('Reciever cant be equal to your login.'));
     }
     
     const fileStorage = new FileStorage();

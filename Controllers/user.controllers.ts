@@ -20,7 +20,7 @@ export const registerUser = async (req: Request, res: Response) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).json(createErrorMessage('User creating error.'));
+        return res.status(500).json(createErrorMessage('User creating error.'));
     }
 
     return res.status(200).json(createResultMessage('User created.'));

@@ -27,6 +27,14 @@ const isLoginExists: CustomValidator = async (login) => {
     return true;
 }
 
+const isEmailExists: CustomValidator = async (email) => {
+    if (await UserModel.findOne({ email })) {
+        throw new Error('Email is existing.')
+    }
+
+    return true;
+}
+
 export const registerValidator = [
     body('name')
         .exists({ checkFalsy: true })
@@ -37,13 +45,15 @@ export const registerValidator = [
     body('login')
         .exists({ checkFalsy: true })
         .withMessage('Login field can not be empty.')
+        .bail()
         .custom(isLoginExists),
     body('email')
         .exists({ checkFalsy: true })
         .withMessage('Email field can not be empty.')
         .bail()
         .isEmail()
-        .withMessage('Email not valid.'),
+        .withMessage('Email not valid.')
+        .custom(isEmailExists),
     body('password')
         .exists({ checkFalsy: true })
         .withMessage('Password field can not be empty.')
