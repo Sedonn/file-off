@@ -11,7 +11,7 @@ const upload = multer();
 
 router.post('/upload-file', checkAuth, upload.single('file'), ...FileMiddleware.uploadFileValidator, FileControllers.uploadFile);
 router.get('/download-file', checkAuth, FileMiddleware.downloadFileValidator, FileControllers.downloadFile);
-router.delete('/delete-file', checkAuth, FileMiddleware.deleteFileValidator, FileControllers.deleteFile)
+router.delete('/delete-file', checkAuth, FileMiddleware.deleteFileValidator, FileControllers.deleteFile);
 router.get('/files', checkAuth, FileControllers.getUserFiles);
 router.get('/downloads', checkAuth, FileControllers.getUserDownloads);
 

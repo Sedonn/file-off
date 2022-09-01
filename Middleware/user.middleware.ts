@@ -62,3 +62,7 @@ export const loginValidator = [
         .withMessage('Password field can not be empty.'),
         userValidatorHandler
 ];
+
+export const loginSanitizer = [
+    body('remember').toBoolean(),
+];
