@@ -1,26 +1,7 @@
-import app from '../app';
-
-import { body, CustomValidator, validationResult } from 'express-validator';
-
-import { Request, Response, NextFunction } from 'express';
+import { body, CustomValidator } from 'express-validator';
 
 import UserModel from '../Models/user.model';
-import { Lang } from '../@types/file-off/lang';
-
-const userValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
-    const userValidationResult = validationResult.withDefaults({
-        formatter: (error) => {
-            return app.$lang[req.userLang][error.msg as keyof Lang];
-        },
-    });
-    
-    const errors = userValidationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
-    }
-
-    next();
-};
+import { defaultValidatorHandler } from './defaultValidationHandler';
 
 const isLoginExists: CustomValidator = async (login) => {
     if (await UserModel.findOne({ login })) {
@@ -63,7 +44,7 @@ export const registerValidator = [
         .bail()
         .isLength({ min: 8 })
         .withMessage('API_ERROR_PASSWORD_SHORT'),
-        userValidatorHandler
+        defaultValidatorHandler
 ];
 
 export const loginValidator = [
@@ -73,7 +54,7 @@ export const loginValidator = [
     body('password')
         .exists({ checkFalsy: true })
         .withMessage('API_ERROR_PASSWORD_EMPTY'),
-        userValidatorHandler
+        defaultValidatorHandler
 ];
 
 export const loginSanitizer = [

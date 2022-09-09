@@ -1,25 +1,6 @@
-import app from '../app';
-import { body, checkSchema, validationResult, query } from 'express-validator';
-
-import { Request, Response, NextFunction } from 'express';
-
+import { body, checkSchema, query } from 'express-validator';
 import { isValidExpirePeriod } from '../utils/expireDate.utils';
-import { Lang } from '../@types/file-off/lang';
-
-const fileValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
-    const fileValidationResult = validationResult.withDefaults({
-        formatter: (error) => {
-            return app.$lang[req.userLang][error.msg as keyof Lang];
-        },
-    });
-
-    const errors = fileValidationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ error: errors.array() });
-    }
-
-    next();
-};
+import { defaultValidatorHandler } from './defaultValidationHandler';
 
 export const uploadFileValidator = [
     checkSchema({
@@ -39,14 +20,14 @@ export const uploadFileValidator = [
         .bail()
         .custom(isValidExpirePeriod)
         .withMessage('API_ERROR_EXPIRE_INVALID'),
-    fileValidatorHandler,
+    defaultValidatorHandler,
 ];
 
 export const downloadFileValidator = [
     query('filename')
         .exists({ checkFalsy: true })
         .withMessage('API_ERROR_FILENAME_EMPTY'),
-    fileValidatorHandler
+    defaultValidatorHandler
 ];
 
 export const deleteFileValidator = [
@@ -56,5 +37,5 @@ export const deleteFileValidator = [
     body('reciever')
         .exists({ checkFalsy: true })
         .withMessage('API_ERROR_RECIEVER_EMPTY'),
-    fileValidatorHandler
+    defaultValidatorHandler
 ];

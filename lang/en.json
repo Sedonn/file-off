@@ -63,7 +63,7 @@
     "MODAL_UPLOAD_STATUS_DONE": "Done.",
 
     "API_ERROR_RECIEVER_404": "Reciever not found.",
-    "API_ERROR_RECIEVER_EMPTY": "Reciever cant be equal to your login.",
+    "API_ERROR_RECIEVER_EMPTY": "Reciever field can not be empty.",
 
     "API_ERROR_FILE_404": "File not found.",
     "API_ERROR_FILES_404": "Files not found.",
