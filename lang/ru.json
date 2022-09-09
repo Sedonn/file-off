@@ -1,0 +1,100 @@
+{
+    "LANG_RU": "Русский",
+    "LANG_EN": "English",
+
+    "LOGIN_PAGE_TITLE": "Авторизация",
+    "LOGIN_PAGE_LOGIN_LABEL": "Ваш логин:",
+    "LOGIN_PAGE_PASSWORD_LABEL": "Ваш пароль:",
+    "LOGIN_PAGE_REMEMBER_LABEL": "Запомить меня",
+    "LOGIN_PAGE_LOGIN_BUTTON": "Войти",
+    "LOGIN_PAGE_ERROR_MESSAGE": "Неправильный логин или пароль.",
+    "LOGIN_PAGE_REGISTER_MESSAGE": "Нет аккаунта?",
+    "LOGIN_PAGE_REGISTER_MESSAGE_LINK": "Создать",
+
+    "REGISTER_PAGE_TITLE": "Регистрация",
+    "REGISTER_PAGE_NAME_LABEL": "Имя:",
+    "REGISTER_PAGE_SURNAME_LABEL": "Фамилия:",
+    "REGISTER_PAGE_LOGIN_LABEL": "Логин:",
+    "REGISTER_PAGE_EMAIL_LABEL": "Email:",
+    "REGISTER_PAGE_PASSWORD_LABEL": "Пароль:",
+    "REGISTER_PAGE_CONFIRM_PASSWORD_LABEL": "Повтор пароля:",
+    "REGISTER_PAGE_REGISTER_BUTTON": "Зарегистрироваться",
+    "REGISTER_PAGE_COMPLETE_MESSAGE": "Регистрация завершена,",
+    "REGISTER_PAGE_COMPLETE_MESSAGE_DESCR": "После закрытия этого сообщеня вы будете автоматически перемещены на страницу авторизации",
+    "REGISTER_PAGE_PASSWORD_MATCH_ERROR": "Пароли не совпадают.",
+
+    "FILES_PAGE_TITLE": "Мои файлы",
+    "FILES_PAGE_FILE_ADD": "Добавить файл",
+    "FILES_PAGE_MODAL_ERROR_TITLE": "Ошибка!",
+    "FILES_PAGE_EMPTY": "Вы не загрузили файлов пока.",
+    "FILES_PAGE_DRAG_TITLE": "Просто перетащите файл сюда",
+    "FILES_PAGE_DRAG_ERROR_MANY_FILES": "Выбран более чем один файл.",
+
+    "DOWNLOADS_PAGE_TITLE": "Загрузки",
+
+    "FILE_CARD_DESCR_TITLE": "Описание:",
+    "FILE_CARD_DESCR_UPLOAD_DATE": "Дата загрузки:",
+    "FILE_CARD_DESCR_SENDER": "Получатель:",
+    "FILE_CARD_DESCR_EXPIRE_DATE": "Будет удален:",
+    "FILE_CARD_DOWNLOAD_BUTTON": "Скачать",
+    "FILE_CARD_ACTIONS_TITLE": "Операции:",
+    "FILE_CARD_ACTIONS_DELETE": "Удалить",
+
+    "SIDEBAR_MENU_FILES_PAGE": "Мои файлы",
+    "SIDEBAR_MENU_DOWNLOADS_PAGE": "Загрузки",
+
+    "PROFILE_MENU_EXIT": "Выход",
+
+    "MODAL_UPLOAD_TITLE": "Загрузка файла",
+    "MODAL_UPLOAD_FILE_LABEL": "Выберите файл:",
+    "MODAL_UPLOAD_FILE_SELECTED_TITLE": "Загружаемый файл:",
+    "MODAL_UPLOAD_FILE_SELECTED_NOT": "файл не выбран",
+    "MODAL_UPLOAD_FILE_CHANGE_BUTTON": "Изменить файл",
+    "MODAL_UPLOAD_RECIEVER_LABEL": "Укажите получателя:",
+    "MODAL_UPLOAD_EXPIRE_LABEL": "Выберите время удаления:",
+    "MODAL_UPLOAD_EXPIRE_WEEK": "Удалить через неделю",
+    "MODAL_UPLOAD_EXPIRE_MONTH": "Удалить через месяц",
+    "MODAL_UPLOAD_EXPIRE_YEAR": "Удалить через год",
+    "MODAL_UPLOAD_FILE_UPLOAD_BUTTON": "Загрузить",
+
+    "MODAL_UPLOAD_ERROR_TITLE": "Ошибка!",
+    "MODAL_UPLOAD_STATUS_LABEL": "Статус:",
+    "MODAL_UPLOAD_STATUS_LOADING": "Загрузка...",
+    "MODAL_UPLOAD_STATUS_DONE": "Готово.",
+
+    "API_ERROR_RECIEVER_404": "Получатель не найден.",
+    "API_ERROR_RECIEVER_EMPTY": "Поле получателя не может быть пустым.",
+
+    "API_ERROR_FILE_404": "Файл не найден.",
+    "API_ERROR_FILES_404": "Файлы не найдены.",
+    "API_ERROR_FILE_UPLOAD": "Ошибка загрузки файла.",
+
+    "API_ERROR_EMAIL_EXISTS": "Email уже существует.",
+    "API_ERROR_EMAIL_EMPTY": "Поле email не может быть пустым.",
+    "API_ERROR_EMAIL_INVALID": "Email не корректен.",
+
+    "API_ERROR_LOGIN_EXISTS": "Логин уже существует.",
+    "API_ERROR_LOGIN_EMPTY": "Поле логина не может быть пустым.",
+
+    "API_ERROR_NAME_EMPTY": "Поле имени не может быть пустым.",
+    "API_ERROR_SURNAME_EMPTY": "Поле фамилии не может быть пустым.",
+    "API_ERROR_FILENAME_EMPTY": "Поле названия файла не может быть пустым.",
+
+    "API_ERROR_PASSWORD_EMPTY": "Поле пароля не может быть пустым.",
+    "API_ERROR_PASSWORD_SHORT": "Длина пароля должна быть больше 8 символов.",
+
+    "API_ERROR_EXPIRE_EMPTY": "Поле даты удаления не может быть пустым.",
+    "API_ERROR_EXPIRE_INVALID": "Дата удаления некорректна.",
+
+    "API_UPLOAD_FILE_ERROR_RECIEVER_EQUAL": "Вы не можете быть получателем файла.",
+    "API_UPLOAD_FILE_ERROR_FILE_EXISTS": "Файл с таким названием и получателем уже сущесвует.",
+
+    "API_DELETE_FILE_ERROR": "Ошибка удаления файла.",
+    "API_DELETE_FILE_DONE": "Файл удален.",
+
+    "API_USER_CREATE_ERROR": "Ошибка создания пользователя.",
+    "API_USER_CREATE_DONE": "Пользователь создан.",
+
+    "API_AUTH_FAILED": "Аутентификация провалена.",
+    "API_AUTH_DONE": "Аутентификация успешнад."
+}

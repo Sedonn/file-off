@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
+import app from '../app';
 
+import { Request, Response } from 'express';
 import { FileMetadata } from '../@types/file-off';
 
 import UserModel from '../Models/user.model';
@@ -11,16 +12,16 @@ import { createExpireDate } from '../utils/expireDate.utils';
 export const uploadFile = async (req: Request, res: Response) => {
     const reciever = await UserModel.findOne({ login: req.body.reciever });
     if (!reciever) {
-        return res.status(404).json(createErrorMessage('Reciever not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_RECIEVER_404));
     }
     if (reciever.login === (await UserModel.findById(req.userId))?.login) {
-        return res.status(400).json(createErrorMessage('Reciever cant be equal to your login.'));
+        return res.status(400).json(createErrorMessage(app.$lang[req.userLang].API_UPLOAD_FILE_ERROR_RECIEVER_EQUAL));
     }
     
     const fileStorage = new FileStorage();
     const file = req.file!;
     if (await fileStorage.getFileBySender(req.userId, file.originalname, reciever._id)) {
-        return res.status(400).json(createErrorMessage('File is already exists.'));
+        return res.status(400).json(createErrorMessage(app.$lang[req.userLang].API_UPLOAD_FILE_ERROR_FILE_EXISTS));
     }
     
     const metadata: FileMetadata = {
@@ -43,7 +44,7 @@ export const downloadFile = async (req: Request, res: Response) => {
     
     const file = await fileStorage.getFileByReceiver(req.userId, req.query.filename!.toString());
     if (!file) {
-        return res.status(404).json(createErrorMessage('File not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILE_404));
     }
 
     res.setHeader('Content-disposition', `attachment; filename=${file.filename}`);
@@ -64,22 +65,22 @@ export const deleteFile = async (req: Request, res: Response) => {
 
     const reciever = await UserModel.findOne({ login: req.body.reciever });
     if (!reciever) {
-        return res.status(404).json(createErrorMessage('Reciever not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_RECIEVER_404));
     }
 
     const file = await fileStorage.getFileBySender(req.userId, req.body.filename, reciever._id);
     if (!file) {
-        return res.status(404).json(createErrorMessage('File not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILE_404));
     }
 
     try {
         await fileStorage.deleteFile(file._id);
     } catch (error) {
         console.log(error);
-        return res.status(500).json(createErrorMessage("File delete error."))
+        return res.status(500).json(createErrorMessage(app.$lang[req.userLang].API_DELETE_FILE_ERROR))
     }
 
-    return res.status(200).json(createResultMessage('File deleted.'));
+    return res.status(200).json(createResultMessage(app.$lang[req.userLang].API_DELETE_FILE_DONE));
 };
 
 export const getUserFiles = async (req: Request, res: Response) => {
@@ -87,7 +88,7 @@ export const getUserFiles = async (req: Request, res: Response) => {
 
     const files = await fileStorage.getUploadFiles(req.userId);
     if (!files.length) {
-        return res.status(404).json(createErrorMessage('Files not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILES_404));
     }
 
     return res.status(200).json(files);
@@ -98,7 +99,7 @@ export const getUserDownloads = async (req: Request, res: Response) => {
 
     const files = await fileStorage.getDownloadFiles(req.userId);
     if (!files.length) {
-        return res.status(404).json(createErrorMessage('Files not found.'));
+        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILES_404));
     }
 
     return res.status(200).json(files);

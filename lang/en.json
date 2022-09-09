@@ -1,0 +1,100 @@
+{
+    "LANG_RU": "Русский",
+    "LANG_EN": "English",
+
+    "LOGIN_PAGE_TITLE": "Login",
+    "LOGIN_PAGE_LOGIN_LABEL": "Your login:",
+    "LOGIN_PAGE_PASSWORD_LABEL": "Your password:",
+    "LOGIN_PAGE_REMEMBER_LABEL": "Remember me",
+    "LOGIN_PAGE_LOGIN_BUTTON": "Login",
+    "LOGIN_PAGE_ERROR_MESSAGE": "Wrong login or password.",
+    "LOGIN_PAGE_REGISTER_MESSAGE": "Not have account?",
+    "LOGIN_PAGE_REGISTER_MESSAGE_LINK": "Create one",
+
+    "REGISTER_PAGE_TITLE": "Register",
+    "REGISTER_PAGE_NAME_LABEL": "Name:",
+    "REGISTER_PAGE_SURNAME_LABEL": "Surname:",
+    "REGISTER_PAGE_LOGIN_LABEL": "Login:",
+    "REGISTER_PAGE_EMAIL_LABEL": "Email:",
+    "REGISTER_PAGE_PASSWORD_LABEL": "Password:",
+    "REGISTER_PAGE_CONFIRM_PASSWORD_LABEL": "Confirm password:",
+    "REGISTER_PAGE_REGISTER_BUTTON": "Register",
+    "REGISTER_PAGE_COMPLETE_MESSAGE": "Register complete,",
+    "REGISTER_PAGE_COMPLETE_MESSAGE_DESCR": "After closing this message, you will be automatically redirected to login page.",
+    "REGISTER_PAGE_PASSWORD_MATCH_ERROR": "Password and confirm password mismatch.",
+
+    "FILES_PAGE_TITLE": "My Files",
+    "FILES_PAGE_FILE_ADD": "Add file",
+    "FILES_PAGE_MODAL_ERROR_TITLE": "Error!",
+    "FILES_PAGE_EMPTY": "You dont have files yet.",
+    "FILES_PAGE_DRAG_TITLE": "Just drag file here",
+    "FILES_PAGE_DRAG_ERROR_MANY_FILES": "Selected more then single file.",
+
+    "DOWNLOADS_PAGE_TITLE": "Downloads",
+
+    "FILE_CARD_DESCR_TITLE": "Details:",
+    "FILE_CARD_DESCR_UPLOAD_DATE": "Upload date:",
+    "FILE_CARD_DESCR_SENDER": "Receiver:",
+    "FILE_CARD_DESCR_EXPIRE_DATE": "Expire at:",
+    "FILE_CARD_DOWNLOAD_BUTTON": "Download",
+    "FILE_CARD_ACTIONS_TITLE": "Actions:",
+    "FILE_CARD_ACTIONS_DELETE": "Delete",
+
+    "SIDEBAR_MENU_FILES_PAGE": "My files",
+    "SIDEBAR_MENU_DOWNLOADS_PAGE": "Downloads",
+
+    "PROFILE_MENU_EXIT": "Exit",
+
+    "MODAL_UPLOAD_TITLE": "File Upload",
+    "MODAL_UPLOAD_FILE_LABEL": "Select the file:",
+    "MODAL_UPLOAD_FILE_SELECTED_TITLE": "Uploading file:",
+    "MODAL_UPLOAD_FILE_SELECTED_NOT": "file not selected",
+    "MODAL_UPLOAD_FILE_CHANGE_BUTTON": "Change file",
+    "MODAL_UPLOAD_RECIEVER_LABEL": "Type the reciever:",
+    "MODAL_UPLOAD_EXPIRE_LABEL": "Select the expire period:",
+    "MODAL_UPLOAD_EXPIRE_WEEK": "Delete after week",
+    "MODAL_UPLOAD_EXPIRE_MONTH": "Delete after month",
+    "MODAL_UPLOAD_EXPIRE_YEAR": "Delete after year",
+    "MODAL_UPLOAD_FILE_UPLOAD_BUTTON": "Upload",
+
+    "MODAL_UPLOAD_ERROR_TITLE": "Error!",
+    "MODAL_UPLOAD_STATUS_LABEL": "Status:",
+    "MODAL_UPLOAD_STATUS_LOADING": "Loading...",
+    "MODAL_UPLOAD_STATUS_DONE": "Done.",
+
+    "API_ERROR_RECIEVER_404": "Reciever not found.",
+    "API_ERROR_RECIEVER_EMPTY": "Reciever cant be equal to your login.",
+
+    "API_ERROR_FILE_404": "File not found.",
+    "API_ERROR_FILES_404": "Files not found.",
+    "API_ERROR_FILE_UPLOAD": "File upload error.",
+
+    "API_ERROR_EMAIL_EXISTS": "Email is existing.",
+    "API_ERROR_EMAIL_EMPTY": "Email field can not be empty.",
+    "API_ERROR_EMAIL_INVALID": "Email not valid.",
+
+    "API_ERROR_LOGIN_EXISTS": "Login is existing.",
+    "API_ERROR_LOGIN_EMPTY": "Login field can not be empty.",
+
+    "API_ERROR_NAME_EMPTY": "Name field can not be empty.",
+    "API_ERROR_SURNAME_EMPTY": "Surname field can not be empty.",
+    "API_ERROR_FILENAME_EMPTY": "Filename field can not be empty.",
+
+    "API_ERROR_PASSWORD_EMPTY": "Password field can not be empty.",
+    "API_ERROR_PASSWORD_SHORT": "Password should be greater than 8 symbols.",
+
+    "API_ERROR_EXPIRE_EMPTY": "Expire field can not be empty.",
+    "API_ERROR_EXPIRE_INVALID": "Expire value not valid.",
+
+    "API_UPLOAD_FILE_ERROR_RECIEVER_EQUAL": "Reciever cant be equal to your login.",
+    "API_UPLOAD_FILE_ERROR_FILE_EXISTS": "File is already exists.",
+
+    "API_DELETE_FILE_ERROR": "File delete error.",
+    "API_DELETE_FILE_DONE": "File deleted.",
+
+    "API_USER_CREATE_ERROR": "User creating error.",
+    "API_USER_CREATE_DONE": "User created.",
+
+    "API_AUTH_FAILED": "Auth failed.",
+    "API_AUTH_DONE": "Auth successful."
+}
