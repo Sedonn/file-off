@@ -56,8 +56,8 @@
     "MODAL_UPLOAD_EXPIRE_MONTH": "Delete after month",
     "MODAL_UPLOAD_EXPIRE_YEAR": "Delete after year",
     "MODAL_UPLOAD_FILE_UPLOAD_BUTTON": "Upload",
-
     "MODAL_UPLOAD_ERROR_TITLE": "Error!",
+    "MODAL_UPLOAD_ERROR_FILE_EMPTY": "File field can not be empty.",
     "MODAL_UPLOAD_STATUS_LABEL": "Status:",
     "MODAL_UPLOAD_STATUS_LOADING": "Loading...",
     "MODAL_UPLOAD_STATUS_DONE": "Done.",

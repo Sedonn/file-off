@@ -56,8 +56,8 @@
     "MODAL_UPLOAD_EXPIRE_MONTH": "Удалить через месяц",
     "MODAL_UPLOAD_EXPIRE_YEAR": "Удалить через год",
     "MODAL_UPLOAD_FILE_UPLOAD_BUTTON": "Загрузить",
-
     "MODAL_UPLOAD_ERROR_TITLE": "Ошибка!",
+    "MODAL_UPLOAD_ERROR_FILE_EMPTY": "Поле файла не может быть пустым.",
     "MODAL_UPLOAD_STATUS_LABEL": "Статус:",
     "MODAL_UPLOAD_STATUS_LOADING": "Загрузка...",
     "MODAL_UPLOAD_STATUS_DONE": "Готово.",
