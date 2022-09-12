@@ -1,4 +1,4 @@
-import { ExpirePeriods } from "../@types/file-off";
+import { ExpirePeriods } from '../@types/file-off';
 
 /**
  * Functions for calculate expire dates with different expire periods.
@@ -24,15 +24,11 @@ const expirePeriods: ExpirePeriods = {
  * @param {string} period - Period key text.
  * @returns {boolean} - Result of validation.
  */
-export const isValidExpirePeriod = (period: string): boolean => {
-    return period in expirePeriods;
-}
+export const isValidExpirePeriod = (period: string): boolean => period in expirePeriods;
 
 /**
  * Function for creating expire date through specific period.
  * @param {keyof ExpirePeriods} period - Period key.
  * @returns {Date} - Result of calculating expire date.
  */
-export const createExpireDate = (period: keyof ExpirePeriods): Date => {
-    return expirePeriods[period]();
-};
+export const createExpireDate = (period: keyof ExpirePeriods): Date => expirePeriods[period]();

@@ -1,9 +1,8 @@
+/* eslint-disable no-console */
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
-import { Request, Response, NextFunction } from 'express';
 
 import fileRouter from './Routes/file.routes';
 import userRouter from './Routes/user.routes';
@@ -26,15 +25,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
         origin: process.env.CORS_ALLOW_ORIGINS,
-    })
+    }),
 );
 
 // Loading custom languages
 app.$lang = langsInit();
 console.log('Localization is loaded.');
 // Setting user language
-app.use(function (req: Request, res: Response, next: NextFunction) {
-    req.userLang = getValidLang(req.acceptsLanguages()[0]) as keyof Langs; 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    req.userLang = getValidLang(req.acceptsLanguages()[0]) as keyof Langs;
     next();
 });
 

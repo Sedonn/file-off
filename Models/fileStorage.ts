@@ -9,7 +9,9 @@ class FileStorage {
     private readonly _COLLECTION_NAME: string = 'fs.files';
 
     private _db;
+
     private _bucket;
+
     private _collection;
 
     constructor() {
@@ -28,7 +30,9 @@ class FileStorage {
      * @returns {GridFSBucketWriteStream} - GridFS bucket write stream.
      */
     public writeFile(file: Express.Multer.File, metadata: FileMetadata) {
-        return streamifier.createReadStream(file.buffer).pipe(this._bucket.openUploadStream(file.originalname, { metadata }));
+        return streamifier
+            .createReadStream(file.buffer)
+            .pipe(this._bucket.openUploadStream(file.originalname, { metadata }));
     }
 
     /**
@@ -39,7 +43,7 @@ class FileStorage {
      */
     public async getFileByReceiver(receiverId: Types.ObjectId, filename: string) {
         return this._collection.findOne({
-            $and: [{ filename: filename }, { 'metadata.receiverId': receiverId }],
+            $and: [{ filename }, { 'metadata.receiverId': receiverId }],
         });
     }
 
@@ -52,7 +56,7 @@ class FileStorage {
      */
     public async getFileBySender(senderId: Types.ObjectId, filename: string, receiverId: Types.ObjectId) {
         return this._collection.findOne({
-            $and: [{ filename: filename }, { 'metadata.senderId': senderId }, { 'metadata.receiverId': receiverId }],
+            $and: [{ filename }, { 'metadata.senderId': senderId }, { 'metadata.receiverId': receiverId }],
         });
     }
 
@@ -106,8 +110,7 @@ class FileStorage {
      * @returns - All uploaded by user files.
      */
     public async getUploadFiles(userId: Types.ObjectId) {
-        return mongoose.connection.db
-            .collection('fs.files')
+        return this._collection
             .aggregate([
                 {
                     $lookup: {
@@ -142,8 +145,7 @@ class FileStorage {
      * @returns - All available to download files by user.
      */
     public async getDownloadFiles(userId: Types.ObjectId) {
-        return mongoose.connection.db
-            .collection('fs.files')
+        return this._collection
             .aggregate([
                 {
                     $lookup: {
@@ -173,7 +175,7 @@ class FileStorage {
     }
 
     /**
-     * Function for deleting file. 
+     * Function for deleting file.
      * @param {BSONObjectId} fileId - File ID.
      */
     public async deleteFile(fileId: BSONObjectId) {

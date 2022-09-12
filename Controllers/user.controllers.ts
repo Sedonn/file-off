@@ -1,11 +1,11 @@
-import { SHA256 } from 'crypto-js';
 import jwt from 'jsonwebtoken';
-import app from '../app';
+import { SHA256 } from 'crypto-js';
 
 import { Request, Response } from 'express';
 
 import UserModel from '../Models/user.model';
 
+import app from '../app';
 import { createErrorMessage, createResultMessage } from '../utils/message.utils';
 
 /**
@@ -24,9 +24,7 @@ export const registerUser = async (req: Request, res: Response) => {
     });
     try {
         await user.save();
-    }
-    catch (error) {
-        console.log(error);
+    } catch (error) {
         return res.status(500).json(createErrorMessage(app.$lang[req.userLang].API_USER_CREATE_ERROR));
     }
 
@@ -47,8 +45,8 @@ export const loginUser = async (req: Request, res: Response) => {
 
     // Creating token and write user ID to token
     const payload = { id: user._id };
-    const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, { 
-        expiresIn: req.body.remember ? '14d' : '1d' 
+    const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, {
+        expiresIn: req.body.remember ? '14d' : '1d',
     });
 
     return res.status(200).json({ token });
@@ -67,5 +65,5 @@ export const getProfile = async (req: Request, res: Response) =>
  * @param {Request} req - Express Request object.
  * @param {Response} res - Express Response object.
  */
-export const authResult = async (req: Request, res: Response) => 
+export const authResult = async (req: Request, res: Response) =>
     res.status(200).json(createResultMessage(app.$lang[req.userLang].API_AUTH_DONE));

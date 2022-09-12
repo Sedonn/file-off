@@ -6,6 +6,8 @@ import { getValidLang } from '../lang/main';
  * Validates data on "lang" route.
  * @filename lang.routes.ts
  */
-export const getLangSanitizer = [
+const getLangSanitizer = [
     query('lang').customSanitizer((lang) => getValidLang(lang)),
 ];
+
+export default getLangSanitizer;

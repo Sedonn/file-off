@@ -1,8 +1,9 @@
-import app from "../app";
-import { validationResult } from "express-validator";
+import { validationResult } from 'express-validator';
 
 import { Request, Response, NextFunction } from 'express';
-import { Lang } from "../@types/file-off/lang";
+
+import app from '../app';
+import { Lang } from '../@types/file-off/lang';
 
 /**
  * Default validation handler for "express-validator" validators.
@@ -10,12 +11,10 @@ import { Lang } from "../@types/file-off/lang";
  * @param {Response} res - Express Response object.
  * @param {NextFunction} next - Express NextFunction callback.
  */
-export const defaultValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
+const defaultValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
     // Creating custom format of error message
     const defaultValidationResult = validationResult.withDefaults({
-        formatter: (error) => {
-            return app.$lang[req.userLang][error.msg as keyof Lang];
-        },
+        formatter: (error) => app.$lang[req.userLang][error.msg as keyof Lang],
     });
 
     const errors = defaultValidationResult(req);
@@ -23,5 +22,7 @@ export const defaultValidatorHandler = (req: Request, res: Response, next: NextF
         return res.status(400).json({ error: errors.array() });
     }
 
-    next();
+    return next();
 };
+
+export default defaultValidatorHandler;

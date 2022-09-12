@@ -1,9 +1,9 @@
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import app from '../app';
 
 import { Request, Response, NextFunction } from 'express';
 
+import app from '../app';
 import { createErrorMessage } from '../utils/message.utils';
 
 /**
@@ -19,10 +19,10 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
         if (err) {
             return res.status(403).json(createErrorMessage(app.$lang[req.userLang].API_AUTH_FAILED));
         }
-        
+
         req.userId = new mongoose.Types.ObjectId(user.id);
 
-        next();
+        return next();
     });
 };
 

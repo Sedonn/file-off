@@ -1,6 +1,6 @@
 import { body, checkSchema, query } from 'express-validator';
 import { isValidExpirePeriod } from '../utils/expireDate.utils';
-import { defaultValidatorHandler } from './defaultValidationHandler';
+import defaultValidatorHandler from './defaultValidationHandler';
 
 /**
  * Validates data on "upload-file" route.
@@ -35,7 +35,7 @@ export const downloadFileValidator = [
     query('filename')
         .exists({ checkFalsy: true })
         .withMessage('API_ERROR_FILENAME_EMPTY'),
-    defaultValidatorHandler
+    defaultValidatorHandler,
 ];
 
 /**
@@ -49,5 +49,5 @@ export const deleteFileValidator = [
     body('reciever')
         .exists({ checkFalsy: true })
         .withMessage('API_ERROR_RECIEVER_EMPTY'),
-    defaultValidatorHandler
+    defaultValidatorHandler,
 ];
