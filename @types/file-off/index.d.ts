@@ -1,5 +1,8 @@
 import { Types } from 'mongoose';
 
+/**
+ * Interface, describing the file metadata.
+ */
 interface FileMetadata {
     mimetype: string;
     senderId: Types.ObjectId;
@@ -7,6 +10,9 @@ interface FileMetadata {
     expireAt: Date;
 }
 
+/**
+ * Interface, describing the file record which getting from database.
+ */
 interface FileRecord {
     length: number;
     chunkSize: number;
@@ -15,14 +21,23 @@ interface FileRecord {
     metadata: FileMetadata;
 }
 
+/**
+ * Interface, describing the error message.
+ */
 interface ErrorMessage {
     error: Array<string>;
 }
 
+/**
+ * Interface, describing the result message.
+ */
 interface ResultMessage {
     message: string;
 }
 
+/**
+ * Interface, describing the available expire periods.
+ */
 interface ExpirePeriods {
     year(): Date;
     month(): Date;

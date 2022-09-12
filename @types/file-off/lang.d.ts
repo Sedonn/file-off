@@ -1,3 +1,6 @@
+/**
+ * Interface, describing the all language phrases.
+ */
 export interface Lang {
     LANG_RU: string;
     LANG_EN: string;
@@ -100,6 +103,9 @@ export interface Lang {
     API_AUTH_DONE: string;
 }
 
+/**
+ * Interface, describing the all available languages.
+ */
 export interface Langs {
     en: Lang;
     ru: Lang;

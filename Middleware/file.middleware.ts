@@ -2,6 +2,10 @@ import { body, checkSchema, query } from 'express-validator';
 import { isValidExpirePeriod } from '../utils/expireDate.utils';
 import { defaultValidatorHandler } from './defaultValidationHandler';
 
+/**
+ * Validates data on "upload-file" route.
+ * @filename file.routes.ts
+ */
 export const uploadFileValidator = [
     checkSchema({
         file: {
@@ -23,6 +27,10 @@ export const uploadFileValidator = [
     defaultValidatorHandler,
 ];
 
+/**
+ * Validates data on "download-file" route.
+ * @filename file.routes.ts
+ */
 export const downloadFileValidator = [
     query('filename')
         .exists({ checkFalsy: true })
@@ -30,6 +38,10 @@ export const downloadFileValidator = [
     defaultValidatorHandler
 ];
 
+/**
+ * Validates data on "delete-file" route.
+ * @filename file.routes.ts
+ */
 export const deleteFileValidator = [
     body('filename')
         .exists({ checkFalsy: true })

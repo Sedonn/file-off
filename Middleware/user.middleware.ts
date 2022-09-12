@@ -3,7 +3,12 @@ import { body, CustomValidator } from 'express-validator';
 import UserModel from '../Models/user.model';
 import { defaultValidatorHandler } from './defaultValidationHandler';
 
-const isLoginExists: CustomValidator = async (login) => {
+/**
+ * Custom validator for cheking existence of login.
+ * @param {string} login
+ * @returns 
+ */
+const isLoginExists: CustomValidator = async (login: string) => {
     if (await UserModel.findOne({ login })) {
         throw new Error('API_ERROR_LOGIN_EXISTS')
     }
@@ -11,7 +16,12 @@ const isLoginExists: CustomValidator = async (login) => {
     return true;
 }
 
-const isEmailExists: CustomValidator = async (email) => {
+/**
+ * Custom validator for cheking existence of email.
+ * @param {string} email
+ * @returns 
+ */
+const isEmailExists: CustomValidator = async (email: string) => {
     if (await UserModel.findOne({ email })) {
         throw new Error('API_ERROR_EMAIL_EXISTS')
     }
@@ -19,6 +29,10 @@ const isEmailExists: CustomValidator = async (email) => {
     return true;
 }
 
+/**
+ * Validates data on "register" route.
+ * @filename user.routes.ts
+ */
 export const registerValidator = [
     body('name')
         .exists({ checkFalsy: true })
@@ -47,6 +61,10 @@ export const registerValidator = [
         defaultValidatorHandler
 ];
 
+/**
+ * Validates data on "login" route.
+ * @filename user.routes.ts
+ */
 export const loginValidator = [
     body('login')
         .exists({ checkFalsy: true })
@@ -57,6 +75,10 @@ export const loginValidator = [
         defaultValidatorHandler
 ];
 
+/**
+ * Sanitaizes data on "login" route.
+ * @filename user.routes.ts
+ */
 export const loginSanitizer = [
     body('remember').toBoolean(),
 ];

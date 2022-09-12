@@ -9,6 +9,7 @@ import * as FileMiddleware from '../Middleware/file.middleware';
 const router = express.Router();
 const upload = multer();
 
+// Setting the "File" routes
 router.post('/upload-file', checkAuth, upload.single('file'), ...FileMiddleware.uploadFileValidator, FileControllers.uploadFile);
 router.get('/download-file', checkAuth, FileMiddleware.downloadFileValidator, FileControllers.downloadFile);
 router.delete('/delete-file', checkAuth, FileMiddleware.deleteFileValidator, FileControllers.deleteFile);

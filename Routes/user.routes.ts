@@ -7,6 +7,7 @@ import * as UserMiddleware from '../Middleware/user.middleware';
 
 const router = express.Router();
 
+// Setting the "User" routes
 router.post('/register', UserMiddleware.registerValidator, UserControllers.registerUser);
 router.post('/login', UserMiddleware.loginValidator, UserMiddleware.loginSanitizer, UserControllers.loginUser);
 router.get('/profile', checkAuth, UserControllers.getProfile);

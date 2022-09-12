@@ -6,6 +6,12 @@ import { Request, Response, NextFunction } from 'express';
 
 import { createErrorMessage } from '../utils/message.utils';
 
+/**
+ * Middleware for authorization, which cheking the JWT.
+ * @param {Request} req - Express Request object.
+ * @param {Response} res - Express Response object.
+ * @param {NextFunction} next - Express NextFunction callback.
+ */
 const auth = async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization?.split(' ')[1];
 

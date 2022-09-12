@@ -4,7 +4,14 @@ import { validationResult } from "express-validator";
 import { Request, Response, NextFunction } from 'express';
 import { Lang } from "../@types/file-off/lang";
 
+/**
+ * Default validation handler for "express-validator" validators.
+ * @param {Request} req - Express Request object.
+ * @param {Response} res - Express Response object.
+ * @param {NextFunction} next - Express NextFunction callback.
+ */
 export const defaultValidatorHandler = (req: Request, res: Response, next: NextFunction) => {
+    // Creating custom format of error message
     const defaultValidationResult = validationResult.withDefaults({
         formatter: (error) => {
             return app.$lang[req.userLang][error.msg as keyof Lang];

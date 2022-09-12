@@ -6,6 +6,7 @@ import * as LangMiddleware from '../Middleware/lang.middleware';
 
 const router = express.Router();
 
+// Setting the "Lang" routes
 router.get('/lang', LangMiddleware.getLangSanitizer, LangControllers.getLang);
 
 export default router;
