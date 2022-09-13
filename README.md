@@ -4,8 +4,8 @@ Backend part of File-off app created with Node.js, Express.js and MongoDB on Typ
 
 ## Table of Contents
 
-* [General info](#general-info)
 * [Motivation](#motivation)
+* [General info](#general-info)
 * [Code style](#code-style)
 * [Technologies](#technologies)
 * [Project Setup](#project-setup)
