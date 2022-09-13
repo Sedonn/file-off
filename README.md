@@ -57,7 +57,7 @@ Frontend part is placed in this repository [File-off - frontend](https://github.
 
 ## Project Setup
 
-This part of the application should run first. The ".env-example" file must be completed and renamed to ".env" before starting the prtoject. Finally, to run API apply following commands:
+This part of the application should run first. The `.env-example` file must be completed and renamed to `.env` before starting the project. Finally, to run API apply following commands:
 
 ```bash
 npm install
