@@ -1,51 +1,45 @@
 /* eslint-disable no-console */
-import dotenv from 'dotenv';
-import express, { Request, Response, NextFunction } from 'express';
+
+import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import passport from 'passport';
 
-import fileRouter from './Routes/file.routes';
-import userRouter from './Routes/user.routes';
-import langRouter from './Routes/lang.routes';
+import routes from './Routes';
 
-import { langsInit, getValidLang } from './lang/main';
-import { Langs } from './@types/file-off/lang';
+import { CORS_ALLOW_ORIGINS, DB_URL, PORT } from './config';
+import fileOffJWTStrategy from './Middleware/auth.middleware';
+import FileStorage from './Models/FileStorage';
+import globalErrorHandler from './Middleware/error.middleware';
 
-// Loading the .env file
-dotenv.config();
-const DB_URL: string = process.env.DB_URL!;
-const PORT: number = +process.env.PORT!;
+passport.use(fileOffJWTStrategy);
 
 const app = express();
 
-// Using middleware to parse request body
-app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 
-// Using CORS to allow requests from client side
+app.use(express.json());
+
 app.use(
-    cors({
-        origin: process.env.CORS_ALLOW_ORIGINS,
-    }),
+  cors({
+    origin: CORS_ALLOW_ORIGINS,
+  }),
 );
 
-// Loading custom languages
-app.$lang = langsInit();
-console.log('Localization is loaded.');
-// Setting user language
-app.use((req: Request, res: Response, next: NextFunction) => {
-    req.userLang = getValidLang(req.acceptsLanguages()[0]) as keyof Langs;
-    next();
-});
+app.use('/api', routes);
+app.use(globalErrorHandler);
 
-// Setting app routes
-app.use('/api', userRouter, fileRouter, langRouter);
+const initApp = async () => {
+  try {
+    await mongoose.connect(DB_URL);
+    console.log('Database is connected.');
 
-// Connecting to MondoDB
-mongoose
-    .connect(DB_URL)
-    .then(() => console.log('Database is connected.'))
-    .catch((err) => console.log(err));
+    app.$fileStorage = new FileStorage();
 
-app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));
+    app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));
+  } catch (error) {
+    process.exit(1);
+  }
+};
 
-export default app;
+initApp();

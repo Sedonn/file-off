@@ -1,53 +1,54 @@
 {
-    "name": "file-off-rest-api",
-    "version": "1.0.0",
-    "description": "",
-    "main": "app.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon app.ts",
-        "build": "tsc --project ./",
-        "lint": "eslint . --ext .ts"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Sedonn/file-off-REST-API.git"
-    },
-    "keywords": [],
-    "author": "Sedonn (https://github.com/Sedonn)",
-    "bugs": {
-        "url": "https://github.com/Sedonn/file-off-REST-API/issues"
-    },
-    "homepage": "https://github.com/Sedonn/file-off-REST-API#readme",
-    "dependencies": {
-        "bson": "^4.7.0",
-        "cors": "^2.8.5",
-        "crypto-js": "^4.1.1",
-        "dotenv": "^16.0.2",
-        "express": "^4.17.3",
-        "express-validator": "^6.14.2",
-        "jsonwebtoken": "^8.5.1",
-        "mongoose": "^6.5.2",
-        "multer": "^1.4.4",
-        "streamifier": "^0.1.1"
-    },
-    "devDependencies": {
-        "@types/cors": "^2.8.12",
-        "@types/crypto-js": "^4.1.1",
-        "@types/express": "^4.17.13",
-        "@types/express-validator": "^3.0.0",
-        "@types/jsonwebtoken": "^8.5.8",
-        "@types/multer": "^1.4.7",
-        "@types/node": "^17.0.21",
-        "@types/streamifier": "^0.1.0",
-        "@typescript-eslint/eslint-plugin": "^5.33.0",
-        "@typescript-eslint/parser": "^5.33.0",
-        "eslint": "^8.21.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-config-airbnb-typescript": "^17.0.0",
-        "eslint-plugin-import": "^2.26.0",
-        "nodemon": "^2.0.19",
-        "ts-node": "^10.7.0",
-        "typescript": "^4.6.2"
-    }
+  "name": "file-off-rest-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon app.ts",
+    "build": "tsc --project ./",
+    "lint": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sedonn/file-off-REST-API.git"
+  },
+  "keywords": [],
+  "author": "Sedonn (https://github.com/Sedonn)",
+  "bugs": {
+    "url": "https://github.com/Sedonn/file-off-REST-API/issues"
+  },
+  "homepage": "https://github.com/Sedonn/file-off-REST-API#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.17.3",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.2",
+    "multer": "^1.4.4",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-validator": "^3.0.0",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^17.0.21",
+    "@types/passport-jwt": "^3.0.8",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  }
 }

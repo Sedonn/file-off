@@ -1,140 +1,165 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-import { FileMetadata } from '../@types/file-off';
+import { Types } from 'mongoose';
 
-import UserModel from '../Models/user.model';
-import FileStorage from '../Models/fileStorage';
+import { ExpirePeriod, TUserFileMetaData } from '../@types';
 
-import app from '../app';
-import { createErrorMessage, createResultMessage } from '../utils/message.utils';
-import { createExpireDate } from '../utils/expireDate.utils';
+import UserModel from '../Models/user';
+import { createExpireDate } from '../Models/expireDate';
+import APIError from '../utils/APIError';
+
+type UploadFileRequestBody = {
+  /** Login of a file reciever. */
+  reciever: string;
+  /** Type of a expire period. */
+  expireAt: ExpirePeriod;
+};
+
+type UploadFileRequest = Request<object, object, UploadFileRequestBody>;
 
 /**
  * Function for upload the file.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {UploadFileRequest} req
+ * @param {Response} res
+ * @param {NextFunction} next
  */
-export const uploadFile = async (req: Request, res: Response) => {
-    // Validating reciever
-    const reciever = await UserModel.findOne({ login: req.body.reciever });
-    if (!reciever) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_RECIEVER_404));
-    }
-    if (reciever.login === (await UserModel.findById(req.userId))?.login) {
-        return res.status(400).json(createErrorMessage(app.$lang[req.userLang].API_UPLOAD_FILE_ERROR_RECIEVER_EQUAL));
-    }
+export const uploadFile = async (
+  { app, body, user, file }: UploadFileRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { $fileStorage } = app;
 
-    // Cheking existing of file with equal filename and reciever
-    const fileStorage = new FileStorage();
-    const file = req.file!;
-    if (await fileStorage.getFileBySender(req.userId, file.originalname, reciever._id)) {
-        return res.status(400).json(createErrorMessage(app.$lang[req.userLang].API_UPLOAD_FILE_ERROR_FILE_EXISTS));
-    }
+  const reciever = await UserModel.findOne({ login: body.reciever });
+  if (!reciever) {
+    return next(new APIError(404, 'RECIEVER_NOT_FOUND'));
+  }
 
-    // Uploading file to database
-    const metadata: FileMetadata = {
-        mimetype: file.mimetype,
-        senderId: req.userId,
-        receiverId: reciever._id,
-        expireAt: createExpireDate(req.body.expireAt),
-    };
-    const uploadStream = fileStorage.writeFile(file, metadata);
-    return uploadStream
-        .on('finish', async () => {
-            res.status(200).json(await fileStorage.getUploadData(uploadStream.id));
-        })
-        .on('error', async (error: Error) => {
-            res.status(400).json(createErrorMessage(error.message));
-        });
+  if (reciever._id.equals(user!.id)) {
+    return next(new APIError(400, 'SENDER_EQUALS_RECEIVER'));
+  }
+
+  // Cheking existing of file with equal filename and reciever
+  if (await $fileStorage.isUploadingFileUnique(user!.id, file!.originalname, reciever._id)) {
+    return next(new APIError(400, 'DUPLICATE_FILE'));
+  }
+
+  // Uploading file to database
+  const metadata = {
+    mimetype: file!.mimetype,
+    senderId: user!.id,
+    receiverId: reciever._id,
+    expireAt: createExpireDate(body.expireAt),
+  } satisfies TUserFileMetaData;
+
+  try {
+    const uploadedFile = await $fileStorage.saveFile(file!, metadata);
+    return res.status(200).json(uploadedFile);
+  } catch {
+    return next(new APIError(500, 'FILE_UPLOAD_FAILED'));
+  }
 };
+
+type DownloadFileRequestQuery = {
+  fileId: Types.ObjectId;
+};
+
+type DownloadFileRequest = Request<object, object, object, DownloadFileRequestQuery>;
 
 /**
  * Function for download the file.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {DownloadFileRequest} req
+ * @param {Response} res
+ * @param {NextFunction} next
  */
-export const downloadFile = async (req: Request, res: Response) => {
-    const fileStorage = new FileStorage();
+export const downloadFile = async (
+  { app, user, query }: DownloadFileRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { $fileStorage } = app;
 
-    // Cheking existing of file
-    const file = await fileStorage.getFileByReceiver(req.userId, req.query.filename!.toString());
-    if (!file) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILE_404));
-    }
+  // Cheking existing of file
+  const file = await $fileStorage.getDownloadableFile(user!.id, new Types.ObjectId(query.fileId));
+  if (!file) {
+    return next(new APIError(404, 'FILE_NOT_FOUND'));
+  }
 
-    // Set response headers before download
-    res.setHeader('Content-disposition', `attachment; filename=${file.filename}`);
-    res.setHeader('Content-type', file.metadata.mimetype);
+  // Set response headers before download
+  res.setHeader('Content-disposition', 'attachment;');
+  res.setHeader('Content-type', file.metadata.mimetype);
 
-    const downloadStream = fileStorage.getFileDownloadStream(file._id).pipe(res);
-    return downloadStream
-        .on('finish', async () => {
-            // Delete after download
-            await fileStorage.deleteFile(file._id);
-            res.status(200).end();
-        })
-        .on('error', async (error: Error) => {
-            res.status(400).json(createErrorMessage(error.message));
-        });
+  return $fileStorage
+    .getFileDownloadStream(file._id)
+    .pipe(res)
+    .on('finish', async () => {
+      // Delete after download
+      await $fileStorage.deleteFile(file._id);
+      res.status(200).end();
+    })
+    .on('error', () => next(new APIError(500, 'FILE_DOWNLOAD_FAILED')));
 };
+
+type DeleteFileRequestBody = {
+  fileId: Types.ObjectId;
+};
+
+type DeleteFileRequest = Request<object, object, DeleteFileRequestBody>;
 
 /**
  * Function for delete the file.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {DeleteFileRequest} req
+ * @param {Response} res
+ * @param {NextFunction} next
  */
-export const deleteFile = async (req: Request, res: Response) => {
-    const fileStorage = new FileStorage();
+export const deleteFile = async (
+  { app, body, user }: DeleteFileRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { $fileStorage } = app;
+  const { fileId } = body;
 
-    // Validate the reciever
-    const reciever = await UserModel.findOne({ login: req.body.reciever });
-    if (!reciever) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_RECIEVER_404));
-    }
+  const fileExistPromises = await Promise.all([
+    $fileStorage.isFileExistsInUploadedFiles(user!.id, fileId),
+    $fileStorage.isFileExistsInDownloadableFiles(user!.id, fileId),
+  ]);
 
-    // Validate the file
-    const file = await fileStorage.getFileBySender(req.userId, req.body.filename, reciever._id);
-    if (!file) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILE_404));
-    }
+  if (!fileExistPromises.some(Boolean)) {
+    return next(new APIError(404, 'FILE_NOT_FOUND'));
+  }
 
-    try {
-        await fileStorage.deleteFile(file._id);
-    } catch (error) {
-        return res.status(500).json(createErrorMessage(app.$lang[req.userLang].API_DELETE_FILE_ERROR));
-    }
+  try {
+    await $fileStorage.deleteFile(fileId);
+  } catch (error) {
+    return next(new APIError(500, 'FILE_DELETE_FAILED'));
+  }
 
-    return res.status(200).json(createResultMessage(app.$lang[req.userLang].API_DELETE_FILE_DONE));
+  return res.status(200).end();
 };
 
 /**
  * Function for getting all files uploaded by user.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {Request} req
+ * @param {Response} res
  */
-export const getUserFiles = async (req: Request, res: Response) => {
-    const fileStorage = new FileStorage();
+export const getUploadedFiles = async ({ app, user }: Request, res: Response) => {
+  const { $fileStorage } = app;
 
-    const files = await fileStorage.getUploadFiles(req.userId);
-    if (!files.length) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILES_404));
-    }
+  const files = await $fileStorage.getUploadedFiles(user!.id);
 
-    return res.status(200).json(files);
+  return res.status(200).json(files);
 };
 
 /**
  * Function for getting all available to user downloads.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {Request} req
+ * @param {Response} res
  */
-export const getUserDownloads = async (req: Request, res: Response) => {
-    const fileStorage = new FileStorage();
+export const getDownloadableFiles = async ({ app, user }: Request, res: Response) => {
+  const { $fileStorage } = app;
 
-    const files = await fileStorage.getDownloadFiles(req.userId);
-    if (!files.length) {
-        return res.status(404).json(createErrorMessage(app.$lang[req.userLang].API_ERROR_FILES_404));
-    }
+  const files = await $fileStorage.getDownloadableFiles(user!.id);
 
-    return res.status(200).json(files);
+  return res.status(200).json(files);
 };

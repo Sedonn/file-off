@@ -1,29 +1,24 @@
-import jwt, { VerifyErrors } from 'jsonwebtoken';
-import mongoose from 'mongoose';
+import { Types } from 'mongoose';
+import { Strategy as JWTStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 
-import { Request, Response, NextFunction } from 'express';
+import UserModel from '../Models/user';
+import { JWT_TOKEN_SECRET } from '../config';
+import APIError from '../utils/APIError';
 
-import app from '../app';
-import { createErrorMessage } from '../utils/message.utils';
-
-/**
- * Middleware for authorization, which cheking the JWT.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
- * @param {NextFunction} next - Express NextFunction callback.
- */
-const auth = async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    jwt.verify(token!, process.env.JWT_TOKEN_SECRET!, (err: VerifyErrors | null, user: any) => {
-        if (err) {
-            return res.status(403).json(createErrorMessage(app.$lang[req.userLang].API_AUTH_FAILED));
-        }
-
-        req.userId = new mongoose.Types.ObjectId(user.id);
-
-        return next();
-    });
+/** Setting up strategy */
+const strategyOptions: StrategyOptions = {
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  secretOrKey: JWT_TOKEN_SECRET,
 };
 
-export default auth;
+const fileOffJWTStrategy = new JWTStrategy(strategyOptions, async ({ id }, done) => {
+  const user = await UserModel.findById(id);
+
+  if (!user) {
+    return done(new APIError(401, 'AUTHORIZATION_FAILED'), undefined);
+  }
+
+  return done(null, { id: new Types.ObjectId(user.id) });
+});
+
+export default fileOffJWTStrategy;

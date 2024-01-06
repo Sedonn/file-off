@@ -1,69 +1,64 @@
 import jwt from 'jsonwebtoken';
-import { SHA256 } from 'crypto-js';
+import bcrypt from 'bcrypt';
 
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { TUser } from '../@types';
 
-import UserModel from '../Models/user.model';
+import UserModel from '../Models/user';
 
-import app from '../app';
-import { createErrorMessage, createResultMessage } from '../utils/message.utils';
+import { JWT_TOKEN_SECRET } from '../config';
+import APIError from '../utils/APIError';
+
+type RegisterUserRequest = Request<object, object, TUser>;
 
 /**
  * Function for user registration.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {RegisterUserRequest} req
+ * @param {Response} res
+ * @param {NextFunction} next
  */
-export const registerUser = async (req: Request, res: Response) => {
-    const user = new UserModel({
-        name: req.body.name,
-        surname: req.body.surname,
-        login: req.body.login,
-        email: req.body.email,
-        // Storing the password in the database as a hash
-        password: SHA256(req.body.password).toString(),
-    });
-    try {
-        await user.save();
-    } catch (error) {
-        return res.status(500).json(createErrorMessage(app.$lang[req.userLang].API_USER_CREATE_ERROR));
-    }
+export const registerUser = async ({ body }: RegisterUserRequest, res: Response, next: NextFunction) => {
+  const user = new UserModel({
+    name: body.name,
+    surname: body.surname,
+    login: body.login,
+    email: body.email,
+    // Storing the password in the database as a hash
+    password: await bcrypt.hash(body.password, 10),
+  });
+  try {
+    await user.save();
+  } catch (error) {
+    return next(new APIError(500, 'REGISTER_FAILED'));
+  }
 
-    return res.status(200).json(createResultMessage(app.$lang[req.userLang].API_USER_CREATE_ERROR));
+  return res.status(200).end();
 };
+
+type LoginUserRequestBody = Pick<TUser, 'login' | 'password'> & {
+  remember: boolean;
+};
+
+type LoginUserRequest = Request<object, object, LoginUserRequestBody>;
 
 /**
  * Function for user logging.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
  */
-export const loginUser = async (req: Request, res: Response) => {
-    // Validating the user
-    const user = await UserModel.findOne({ login: req.body.login });
-    if (!user || user.password !== SHA256(req.body.password).toString()) {
-        return res.status(401).json(createErrorMessage(app.$lang[req.userLang].API_AUTH_FAILED));
-    }
+export const loginUser = async ({ body }: LoginUserRequest, res: Response, next: NextFunction) => {
+  // Validating the user
+  const user = await UserModel.findOne({ login: body.login });
+  if (!user || !(await bcrypt.compare(body.password, user.password))) {
+    return next(new APIError(401, 'AUTHORIZATION_FAILED'));
+  }
 
-    // Creating token and write user ID to token
-    const payload = { id: user._id };
-    const token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET!, {
-        expiresIn: req.body.remember ? '14d' : '1d',
-    });
+  // Creating token and write user ID to token
+  const payload = { id: user._id };
+  const token = jwt.sign(payload, JWT_TOKEN_SECRET, {
+    expiresIn: body.remember ? '14d' : '1d',
+  });
 
-    return res.status(200).json({ token });
+  return res.status(200).json({ token });
 };
-
-/**
- * Function for getting user profile.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
- */
-export const getProfile = async (req: Request, res: Response) =>
-    res.status(200).json(await UserModel.findOne({ _id: req.userId }, { _id: 0, password: 0, __v: 0 }));
-
-/**
- * Function for handling successful result of authentication middleware.
- * @param {Request} req - Express Request object.
- * @param {Response} res - Express Response object.
- */
-export const authResult = async (req: Request, res: Response) =>
-    res.status(200).json(createResultMessage(app.$lang[req.userLang].API_AUTH_DONE));
