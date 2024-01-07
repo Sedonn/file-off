@@ -1,0 +1,122 @@
+{
+  "APIErrors": {
+    "RECIEVER_NOT_FOUND": "Получатель не найден.",
+    "RECIEVER_EMPTY": "Поле получателя не может быть пустым.",
+    "EXPIRE_PERIOD_EMPTY": "Поле срока хранения не может быть пустым.",
+    "EXPIRE_PERIOD_INVALID": "Срок хранения задан неверно.",
+    "SENDER_EQUALS_RECEIVER": "Ваш логин не подходит для логина получателя файла.",
+    "DUPLICATE_FILE": "Такой файл уже существует.",
+    "FILE_NOT_FOUND": "Файл не найден.",
+    "FILD_ID_EMPTY": "Поле идентификатора файла не может быть пустым.",
+    "FILD_ID_CORRUPTED": "Значение идентификатора файла повреждено.",
+    "FILE_UPLOAD_FAILED": "Загрузка файла провалена.",
+    "FILE_DOWNLOAD_FAILED": "Скачка файла провалена.",
+    "FILE_DELETE_FAILED": "Удаление файла провалено.",
+    "DUPLICATE_LOGIN": "Такой логин уже существует.",
+    "DUPLICATE_EMAIL": "Такой email уже существует.",
+    "NAME_EMPTY": "Поле имени не может быть пустым.",
+    "SURNAME_EMPTY": "Поле фамилии не может быть пустым.",
+    "LOGIN_EMPTY": "Поле логина не может быть пустым.",
+    "EMAIL_EMPTY": "Поле email не может быть пустым.",
+    "EMAIL_IVALID": "Значение email некорректно.",
+    "PASSWORD_EMPTY": "Поле пароля не может быть пустым.",
+    "PASSWORD_SHORT": "Пароль должен быть не менее 8 символов в длину.",
+    "REGISTER_FAILED": "Регистрация проваелна.",
+    "AUTHORIZATION_FAILED": "Неправильный логин или пароль.",
+    "UNKNOWN_ERROR": "Неизвестная ошибка."
+  },
+
+  "validationErrors": {
+    "emptyField": "Поле не может быть пустым.",
+    "emptyFileField": "Файл не выбран."
+  },
+
+  "notFoundPage": {
+    "title": "Страница не найдена.",
+    "returnBackLabel": "Вернуться назад"
+  },
+
+  "loginPage": {
+    "title": "Войти",
+    "form": {
+      "loginLabel": "Ваш логин:",
+      "passwordLabel": "Ваш пароль:",
+      "rememberLabel": "Запомнить меня",
+      "submitButtonLabel": "Войти"
+    },
+    "registerMessage": {
+      "text": "Нет аккаунта?",
+      "link": "Создать"
+    }
+  },
+
+  "registerPage": {
+    "title": "Регистрация",
+    "form": {
+      "nameLabel": "Имя:",
+      "surnameLabel": "Фамилия:",
+      "loginLabel": "Логин:",
+      "emailLabel": "Email:",
+      "passwordLabel": "Пароль:",
+      "confirmPasswordLabel": "Повтор пароля:",
+      "submitButtonLabel": "Создать аккаунт",
+      "errors": {
+        "passwordsMismatch": "Поля пароля и подтверждения пароля не совпадают."
+      }
+    }
+  },
+  "registerCompleteDialog": {
+    "title": "Регистрация завершена!",
+    "subtitle": "Аккаунт успешно создан!",
+    "description": "После закрытия этого сообщения вы будете автоматически перемещены на страницу входа."
+  },
+
+  "fileCard": {
+    "menu": {
+      "deleteOption": "Удалить"
+    },
+    "uploadDateLabel": "Загружен",
+    "expireAtLabel": "Можно скачать до",
+    "snackbar": {
+      "fileDeleted": "Файл '{filename}' удален!"
+    }
+  },
+
+  "userFilesPage": {
+    "title": "Мои файлы",
+    "emptyUploads": "Пока нет загруженных файлов.",
+    "fileCard": {
+      "receiver": "Получатель"
+    }
+  },
+  "fileUploadDialog": {
+    "title": "Загрузка файла",
+    "form": {
+      "fileLabel": "Выберите файл...",
+      "receiverLabel": "Логин получателя...",
+      "expirePeriod": {
+        "label": "Выберите срок хранения:",
+        "option": {
+          "week": "Неделя",
+          "month": "Месяц",
+          "year": "Год"
+        }
+      },
+      "submitButton": "Загрузить файл"
+    },
+    "snackbar": {
+      "fileUploaded": "Файл '{filename}' загружен!"
+    }
+  },
+
+  "userDownloadsPage": {
+    "title": "Загрузки",
+    "emptyDownloads": "Пока нет файлов доступных для скачивания.",
+    "fileCard": {
+      "sender": "Отправитель",
+      "actions": {
+        "download": "Скачать"
+      }
+    }
+  }
+}

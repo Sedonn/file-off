@@ -1,0 +1,122 @@
+{
+  "APIErrors": {
+    "RECIEVER_NOT_FOUND": "Reciever not found.",
+    "RECIEVER_EMPTY": "Reciever field can not be empty.",
+    "EXPIRE_PERIOD_EMPTY": "Expire period field can not be empty.",
+    "EXPIRE_PERIOD_INVALID": "Expire period value not valid.",
+    "SENDER_EQUALS_RECEIVER": "Reciever cant be equal to your login.",
+    "DUPLICATE_FILE": "File is already exists.",
+    "FILE_NOT_FOUND": "File not found.",
+    "FILD_ID_EMPTY": "File Id field can not be empty.",
+    "FILD_ID_CORRUPTED": "Value in the file Id field is corrupted.",
+    "FILE_UPLOAD_FAILED": "File upload failed.",
+    "FILE_DOWNLOAD_FAILED": "File download error.",
+    "FILE_DELETE_FAILED": "File delete error.",
+    "DUPLICATE_LOGIN": "Login is already exists.",
+    "DUPLICATE_EMAIL": "Email is already exists.",
+    "NAME_EMPTY": "Name field can not be empty.",
+    "SURNAME_EMPTY": "Surname field can not be empty.",
+    "LOGIN_EMPTY": "Login field can not be empty.",
+    "EMAIL_EMPTY": "Email field can not be empty.",
+    "EMAIL_IVALID": "Value in the email field is invalid.",
+    "PASSWORD_EMPTY": "Password field can not be empty.",
+    "PASSWORD_SHORT": "Password must be at least 8 letters long.",
+    "REGISTER_FAILED": "Register failed.",
+    "AUTHORIZATION_FAILED": "Wrong login or password.",
+    "UNKNOWN_ERROR": "Unknown error."
+  },
+
+  "validationErrors": {
+    "emptyField": "Field can not be empty.",
+    "emptyFileField": "File not selected."
+  },
+
+  "notFoundPage": {
+    "title": "Page not found.",
+    "returnBackLabel": "Return back"
+  },
+
+  "loginPage": {
+    "title": "Sign In",
+    "form": {
+      "loginLabel": "Your login:",
+      "passwordLabel": "Your password:",
+      "rememberLabel": "Remember me",
+      "submitButtonLabel": "Sign In"
+    },
+    "registerMessage": {
+      "text": "Not have account?",
+      "link": "Create one"
+    }
+  },
+
+  "registerPage": {
+    "title": "Register",
+    "form": {
+      "nameLabel": "Name:",
+      "surnameLabel": "Surname:",
+      "loginLabel": "Login:",
+      "emailLabel": "Email:",
+      "passwordLabel": "Password:",
+      "confirmPasswordLabel": "Confirm password:",
+      "submitButtonLabel": "Create account",
+      "errors": {
+        "passwordsMismatch": "Password and confirm password fields mismatch."
+      }
+    }
+  },
+  "registerCompleteDialog": {
+    "title": "Registration completed!",
+    "subtitle": "Account successfully created!",
+    "description": "After closing this message, you will be automatically redirected to login page."
+  },
+
+  "fileCard": {
+    "menu": {
+      "deleteOption": "Delete"
+    },
+    "uploadDateLabel": "Uploaded",
+    "expireAtLabel": "Download expires at",
+    "snackbar": {
+      "fileDeleted": "File '{filename}' deleted!"
+    }
+  },
+
+  "userFilesPage": {
+    "title": "My files",
+    "emptyUploads": "There are no uploaded files yet.",
+    "fileCard": {
+      "receiver": "Reciever"
+    }
+  },
+  "fileUploadDialog": {
+    "title": "File upload",
+    "form": {
+      "fileLabel": "Select the file...",
+      "receiverLabel": "Reciever login...",
+      "expirePeriod": {
+        "label": "Select the expire period:",
+        "option": {
+          "week": "Week",
+          "month": "Month",
+          "year": "Year"
+        }
+      },
+      "submitButton": "Upload file"
+    },
+    "snackbar": {
+      "fileUploaded": "File '{filename} uploaded!"
+    }
+  },
+
+  "userDownloadsPage": {
+    "title": "Downloads",
+    "emptyDownloads": "There are no files available for download yet.",
+    "fileCard": {
+      "sender": "Sender",
+      "actions": {
+        "download": "Download"
+      }
+    }
+  }
+}
