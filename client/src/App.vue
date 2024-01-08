@@ -26,6 +26,7 @@ onErrorCaptured((error: AxiosError<ErrorResponse> | Error) => {
       if (error in APIErrors) {
         toast.error(t(`APIErrors.${error}`));
       } else {
+        console.error(error);
         toast.error(t(`APIErrors.UNKNOWN_ERROR`));
       }
     }
