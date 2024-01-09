@@ -38,6 +38,7 @@ const initApp = async () => {
 
     app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));
   } catch (error) {
+    console.error(error);
     process.exit(1);
   }
 };

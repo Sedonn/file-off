@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
+    "baseUrl": ".",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "rootDir": "./",
     "outDir": "./build",
     "esModuleInterop": true,
@@ -10,5 +12,10 @@
       "./@types",
       "./node_modules/@types"
     ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   }
 }

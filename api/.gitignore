@@ -105,3 +105,6 @@ dist
 
 # Multer file storage
 .tmp
+
+# Typescript build folder
+build
