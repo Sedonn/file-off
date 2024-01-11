@@ -5,7 +5,6 @@ declare global {
       PORT: string;
       JWT_TOKEN_SECRET: string;
       CORS_ALLOW_ORIGINS: string;
-      NODE_ENV: string;
     }
   }
 }
