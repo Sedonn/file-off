@@ -8,12 +8,12 @@ export type TAvailableLocales = 'en' | 'ru';
 export const saveLastSelectedLocale = (locale: TAvailableLocales) =>
   localStorage.setItem('locale', locale);
 
-export const getLastSeletedLocale = () =>
+export const getLastSelectedLocale = () =>
   localStorage.getItem('locale') ?? 'en';
 
 const options = {
   legacy: false,
-  locale: getLastSeletedLocale(),
+  locale: getLastSelectedLocale(),
   fallbackLocale: 'en',
   messages: {
     en,

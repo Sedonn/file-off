@@ -4,7 +4,7 @@ import { isValidExpirePeriod } from '../../Models/expireDate';
 import defaultValidatorHandler, { isObjectId, toObjectId } from '.';
 
 const createFileIdValidationChain = (context: ReturnType<typeof buildCheckFunction>) =>
-  context('fileId').exists({ checkFalsy: true }).withMessage('FILD_ID_EMPTY').bail().custom(isObjectId);
+  context('fileId').exists({ checkFalsy: true }).withMessage('FILE_ID_EMPTY').bail().custom(isObjectId);
 
 /**
  * Validates data on "upload-file" route.
@@ -19,7 +19,7 @@ export const uploadFileValidator = [
       },
     },
   }),
-  body('reciever').exists({ checkFalsy: true }).withMessage('RECIEVER_EMPTY'),
+  body('receiver').exists({ checkFalsy: true }).withMessage('RECEIVER_EMPTY'),
   body('expireAt')
     .exists({ checkFalsy: true })
     .withMessage('EXPIRE_PERIOD_EMPTY')

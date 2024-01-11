@@ -9,8 +9,8 @@ import { createExpireDate } from '../Models/expireDate';
 import APIError from '../utils/APIError';
 
 type UploadFileRequestBody = {
-  /** Login of a file reciever. */
-  reciever: string;
+  /** Login of a file receiver. */
+  receiver: string;
   /** Type of a expire period. */
   expireAt: ExpirePeriod;
 };
@@ -30,17 +30,17 @@ export const uploadFile = async (
 ) => {
   const { $fileStorage } = app;
 
-  const reciever = await UserModel.findOne({ login: body.reciever });
-  if (!reciever) {
-    return next(new APIError(404, 'RECIEVER_NOT_FOUND'));
+  const receiver = await UserModel.findOne({ login: body.receiver });
+  if (!receiver) {
+    return next(new APIError(404, 'RECEIVER_NOT_FOUND'));
   }
 
-  if (reciever._id.equals(user!.id)) {
+  if (receiver._id.equals(user!.id)) {
     return next(new APIError(400, 'SENDER_EQUALS_RECEIVER'));
   }
 
-  // Cheking existing of file with equal filename and reciever
-  if (await $fileStorage.isUploadingFileUnique(user!.id, file!.originalname, reciever._id)) {
+  // Checking existing of file with equal filename and receiver
+  if (await $fileStorage.isUploadingFileUnique(user!.id, file!.originalname, receiver._id)) {
     return next(new APIError(400, 'DUPLICATE_FILE'));
   }
 
@@ -48,7 +48,7 @@ export const uploadFile = async (
   const metadata = {
     mimetype: file!.mimetype,
     senderId: user!.id,
-    receiverId: reciever._id,
+    receiverId: receiver._id,
     expireAt: createExpireDate(body.expireAt),
   } satisfies TUserFileMetaData;
 
@@ -79,7 +79,7 @@ export const downloadFile = async (
 ) => {
   const { $fileStorage } = app;
 
-  // Cheking existing of file
+  // Checking existing of file
   const file = await $fileStorage.getDownloadableFile(user!.id, new Types.ObjectId(query.fileId));
   if (!file) {
     return next(new APIError(404, 'FILE_NOT_FOUND'));

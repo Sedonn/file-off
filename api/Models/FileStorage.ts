@@ -15,7 +15,7 @@ class FileStorage {
     'metadata.mimetype': 1,
   };
 
-  private readonly _LOOKUP_FOR_FILE_RECIEVER: Record<string, any>[] = [
+  private readonly _LOOKUP_FOR_FILE_RECEIVER: Record<string, any>[] = [
     {
       $lookup: {
         from: 'users',
@@ -58,16 +58,16 @@ class FileStorage {
   }
 
   /**
-   * Is the file exists with certain filename and reciever id.
+   * Is the file exists with certain filename and receiver id.
    * @param userId
    * @param filename
-   * @param recieverId
+   * @param receiverId
    */
-  public async isUploadingFileUnique(userId: Types.ObjectId, filename: string, recieverId: Types.ObjectId) {
+  public async isUploadingFileUnique(userId: Types.ObjectId, filename: string, receiverId: Types.ObjectId) {
     const file = await this._collection.findOne({
       filename,
       'metadata.senderId': userId,
-      'metadata.receiverId': recieverId,
+      'metadata.receiverId': receiverId,
     });
 
     return !!file;
@@ -155,7 +155,7 @@ class FileStorage {
         {
           $match: { _id: fileId },
         },
-        ...this._LOOKUP_FOR_FILE_RECIEVER,
+        ...this._LOOKUP_FOR_FILE_RECEIVER,
         {
           $project: {
             ...this._DEFAULT_FILE_PROJECTION,
@@ -177,7 +177,7 @@ class FileStorage {
         {
           $match: { 'metadata.senderId': userId },
         },
-        ...this._LOOKUP_FOR_FILE_RECIEVER,
+        ...this._LOOKUP_FOR_FILE_RECEIVER,
         {
           $project: {
             ...this._DEFAULT_FILE_PROJECTION,

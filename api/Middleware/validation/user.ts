@@ -4,7 +4,7 @@ import UserModel from '../../Models/user';
 import defaultValidatorHandler from '.';
 
 /**
- * Custom validator for cheking existence of login.
+ * Custom validator for checking existence of login.
  * @param {string} login
  * @returns - Error or "true"
  */
@@ -17,7 +17,7 @@ const isLoginExists: CustomValidator = async (login: string) => {
 };
 
 /**
- * Custom validator for cheking existence of email.
+ * Custom validator for checking existence of email.
  * @param {string} email
  * @returns - Error or "true"
  */
@@ -42,7 +42,7 @@ export const registerUserValidator = [
     .withMessage('EMAIL_EMPTY')
     .bail()
     .isEmail()
-    .withMessage('EMAIL_IVALID')
+    .withMessage('EMAIL_INVALID')
     .custom(isEmailExists),
   body('password')
     .exists({ checkFalsy: true })
@@ -64,7 +64,7 @@ export const loginUserValidator = [
 ];
 
 /**
- * Sanitaizes data on "login" route.
+ * Sanitizes data on "login" route.
  * @filename user.routes.ts
  */
 export const loginUserSanitizer = [body('remember').toBoolean()];

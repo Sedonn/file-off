@@ -1,14 +1,14 @@
 {
   "APIErrors": {
-    "RECIEVER_NOT_FOUND": "Reciever not found.",
-    "RECIEVER_EMPTY": "Reciever field can not be empty.",
+    "RECEIVER_NOT_FOUND": "Receiver not found.",
+    "RECEIVER_EMPTY": "Receiver field can not be empty.",
     "EXPIRE_PERIOD_EMPTY": "Expire period field can not be empty.",
     "EXPIRE_PERIOD_INVALID": "Expire period value not valid.",
-    "SENDER_EQUALS_RECEIVER": "Reciever cant be equal to your login.",
+    "SENDER_EQUALS_RECEIVER": "Receiver cant be equal to your login.",
     "DUPLICATE_FILE": "File is already exists.",
     "FILE_NOT_FOUND": "File not found.",
-    "FILD_ID_EMPTY": "File Id field can not be empty.",
-    "FILD_ID_CORRUPTED": "Value in the file Id field is corrupted.",
+    "FILE_ID_EMPTY": "File Id field can not be empty.",
+    "FILE_ID_CORRUPTED": "Value in the file Id field is corrupted.",
     "FILE_UPLOAD_FAILED": "File upload failed.",
     "FILE_DOWNLOAD_FAILED": "File download error.",
     "FILE_DELETE_FAILED": "File delete error.",
@@ -18,7 +18,7 @@
     "SURNAME_EMPTY": "Surname field can not be empty.",
     "LOGIN_EMPTY": "Login field can not be empty.",
     "EMAIL_EMPTY": "Email field can not be empty.",
-    "EMAIL_IVALID": "Value in the email field is invalid.",
+    "EMAIL_INVALID": "Value in the email field is invalid.",
     "PASSWORD_EMPTY": "Password field can not be empty.",
     "PASSWORD_SHORT": "Password must be at least 8 letters long.",
     "REGISTER_FAILED": "Register failed.",
@@ -86,14 +86,14 @@
     "title": "My files",
     "emptyUploads": "There are no uploaded files yet.",
     "fileCard": {
-      "receiver": "Reciever"
+      "receiver": "Receiver"
     }
   },
   "fileUploadDialog": {
     "title": "File upload",
     "form": {
       "fileLabel": "Select the file...",
-      "receiverLabel": "Reciever login...",
+      "receiverLabel": "Receiver login...",
       "expirePeriod": {
         "label": "Select the expire period:",
         "option": {

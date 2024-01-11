@@ -26,7 +26,7 @@ const defaultValidatorHandler = (req: Request, res: Response<ErrorResponse>, nex
 
 export const isObjectId: CustomValidator = (value: string) => {
   if (!Types.ObjectId.isValid(value)) {
-    throw new Error('FILD_ID_CORRUPTED');
+    throw new Error('FILE_ID_CORRUPTED');
   }
 
   return true;

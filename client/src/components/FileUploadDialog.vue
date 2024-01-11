@@ -28,8 +28,8 @@
         />
 
         <v-text-field
-          v-model="formData.recieverLogin"
-          :rules="recieverFieldValidationRules"
+          v-model="formData.receiverLogin"
+          :rules="receiverFieldValidationRules"
           prepend-inner-icon="mdi-account"
           :label="t('fileUploadDialog.form.receiverLabel')"
         />
@@ -85,7 +85,7 @@ type FileUploadDialogEmits = {
 
 type UploadFileFromData = {
   file: File[] | undefined;
-  recieverLogin: string;
+  receiverLogin: string;
   expirePeriod: string;
 };
 
@@ -98,11 +98,11 @@ const isOpen = ref<boolean>(false);
 
 const formData = reactive<UploadFileFromData>({
   file: undefined,
-  recieverLogin: '',
+  receiverLogin: '',
   expirePeriod: '',
 });
 
-const recieverFieldValidationRules = computed(() => [
+const receiverFieldValidationRules = computed(() => [
   createEmptyFieldValidationRule(t('validationErrors.emptyField')),
 ]);
 
@@ -130,8 +130,8 @@ const onSubmit = async (event: SubmitEventPromise) => {
     return;
   }
 
-  const { file, recieverLogin, expirePeriod } = formData;
-  const newFile = await uploadFile(file![0], recieverLogin, expirePeriod);
+  const { file, receiverLogin, expirePeriod } = formData;
+  const newFile = await uploadFile(file![0], receiverLogin, expirePeriod);
 
   close();
   toast.success(

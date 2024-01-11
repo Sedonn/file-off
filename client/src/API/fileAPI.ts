@@ -11,7 +11,7 @@ export const uploadFile = async (
   const bodyData = new FormData();
 
   bodyData.append('file', file);
-  bodyData.append('reciever', receiverLogin);
+  bodyData.append('receiver', receiverLogin);
   bodyData.append('expireAt', expirePeriod);
 
   const config = {

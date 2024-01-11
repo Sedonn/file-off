@@ -71,7 +71,7 @@ const onFileDeleted = ({ _id }: TUserFile) => {
 const onFileDownload = async (file: TUserFile) => {
   await downloadFile(file);
 
-  // The file will be automaticly deleted after downloading
+  // The file will be automatically deleted after downloading
   onFileDeleted(file);
 };
 </script>
