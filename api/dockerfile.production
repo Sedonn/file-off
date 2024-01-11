@@ -13,4 +13,4 @@ WORKDIR /app
 RUN rm -rf ./src
 COPY package*.json ./
 RUN npm install --omit=dev
-CMD [ "node", "app.js" ]
+CMD node app.js

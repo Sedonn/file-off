@@ -1,35 +1,27 @@
+version: '3'
+
 name: file-off
 services:
   db:
-    container_name: db
     image: mongo:5.0.6
     restart: always
     ports:
       - 27017:27017
 
   api:
-    build: api/
-    container_name: api
+    build:
+      context: api/
     ports:
       - 8080:8080
     depends_on:
       - db
     environment:
       - JWT_TOKEN_SECRET=${JWT_TOKEN_SECRET:-123}
-      - NODE_ENV=production
-      - CORS_ALLOW_ORIGINS=http://localhost:8081
       - DB_URL=mongodb://db:27017/file-off
       - PORT=8080
 
   client:
-    container_name: client
     build:
-      context: /client
-      args:
-        API_URL: http://localhost:8080/api
-    ports:
-      - 8081:80
+      context: client/
     depends_on:
       - api
-    environment:
-      - NODE_ENV=production

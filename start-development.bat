@@ -1,0 +1,1 @@
+docker-compose -f docker-compose.common.yml -f docker-compose.development.yml --env-file ./.env.development up --build

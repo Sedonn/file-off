@@ -1,0 +1,31 @@
+version: '3'
+
+name: file-off-development
+services:
+  db:
+    container_name: db-dev
+
+  api:
+    container_name: api-dev
+    build:
+      dockerfile: dockerfile.development
+    environment:
+      - NODE_ENV=development
+      - CORS_ALLOW_ORIGINS=http://localhost:8000
+    volumes:
+      - ./api:/app/
+      - /app/node_modules
+
+  client:
+    container_name: client-dev
+    build:
+      dockerfile: dockerfile.development
+    ports:
+      - 8000:8000
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:8080/api
+      - VITE_PORT=8000
+    volumes:
+      - ./client:/app/
+      - /app/node_modules

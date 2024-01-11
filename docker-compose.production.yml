@@ -1,0 +1,25 @@
+version: '3'
+
+name: file-off-production
+services:
+  db:
+    container_name: db
+
+  api:
+    container_name: api
+    build:
+      dockerfile: dockerfile.production
+    environment:
+      - NODE_ENV=production
+      - CORS_ALLOW_ORIGINS=http://localhost:8081
+
+  client:
+    container_name: client
+    build:
+      dockerfile: dockerfile.production
+      args:
+        API_URL: http://localhost:8080/api
+    ports:
+      - 8081:80
+    environment:
+      - NODE_ENV=production

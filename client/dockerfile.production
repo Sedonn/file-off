@@ -2,7 +2,7 @@ FROM node:20.9.0-alpine AS build-stage
 
 # Building stage
 WORKDIR /app
-COPY package*.json ./
+COPY package*.json .
 RUN npm install
 COPY . .
 ARG API_URL
@@ -13,4 +13,4 @@ FROM nginx:stable-alpine AS production-stage
 
 # Launching stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-CMD ["nginx", "-g", "daemon off;"]
+CMD nginx -g 'daemon off;'
