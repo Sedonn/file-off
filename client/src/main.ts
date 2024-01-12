@@ -15,7 +15,7 @@ import { createApp } from 'vue';
 
 // Styles
 import 'vue3-toastify/dist/index.css';
-import 'flag-icons/css/flag-icons.min.css';
+import '@/assets/flag-icons/css/flag-icons.min.css';
 
 const app = createApp(App);
 
