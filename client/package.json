@@ -1,7 +1,8 @@
 {
   "name": "file-off-frontend",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
+  "description": "Frontend part of File-off app",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -9,6 +10,11 @@
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore"
   },
+  "author": "Sedonn (https://github.com/Sedonn)",
+  "bugs": {
+    "url": "https://github.com/Sedonn/file-off/issues"
+  },
+  "homepage": "https://github.com/Sedonn/file-off#readme",
   "dependencies": {
     "@mdi/font": "7.0.96",
     "axios": "^1.6.2",
