@@ -20,6 +20,7 @@ Frontend part of File-off app created with Vue.js on Typescript.
 - vue-router: 4.2.5
 - pinia: 2.1.7
 - vue-i18n: 9.8.0
+- flag-icons: 7.1.0
 
 ### Common dependencies
 
