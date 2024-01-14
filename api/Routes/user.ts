@@ -1,3 +1,5 @@
+/** @fileoverview User routes. */
+
 import express from 'express';
 
 import { loginUserSanitizer, loginUserValidator, registerUserValidator } from '../Middleware/validation/user';

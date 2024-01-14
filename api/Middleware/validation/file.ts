@@ -1,15 +1,18 @@
+/** @fileoverview Validators and sanitizers for the operations with files. */
+
 import { body, buildCheckFunction, checkSchema, query } from 'express-validator';
 
 import { isValidExpirePeriod } from '../../Models/expireDate';
 import defaultValidatorHandler, { isObjectId, toObjectId } from '.';
 
+/**
+ * Factory method that creates a validation chain for a certain request context.
+ * @param context
+ */
 const createFileIdValidationChain = (context: ReturnType<typeof buildCheckFunction>) =>
   context('fileId').exists({ checkFalsy: true }).withMessage('FILE_ID_EMPTY').bail().custom(isObjectId);
 
-/**
- * Validates data on "upload-file" route.
- * @filename file.routes.ts
- */
+/** Validation for the uploadFile method. */
 export const uploadFileValidator = [
   checkSchema({
     file: {
@@ -29,18 +32,14 @@ export const uploadFileValidator = [
   defaultValidatorHandler,
 ];
 
-/**
- * Validates data on "download-file" route.
- * @filename file.routes.ts
- */
+/** Validation for the downloadFile method. */
 export const downloadFileValidator = [createFileIdValidationChain(query), defaultValidatorHandler];
 
+/** Converts data for the downloadFile method. */
 export const downloadFileSanitizer = [query('fileId').customSanitizer(toObjectId)];
 
-/**
- * Validates data on "delete-file" route.
- * @filename file.routes.ts
- */
+/** Validation for the deleteFile method. */
 export const deleteFileValidator = [createFileIdValidationChain(body), defaultValidatorHandler];
 
+/** Converts data for the deleteFile method. */
 export const deleteFileSanitizer = [body('fileId').customSanitizer(toObjectId)];

@@ -1,9 +1,8 @@
+/** @fileoverview Methods for managing expire dates of the file storage. */
+
 import { ExpirePeriod, ExpirePeriods } from '../@types';
 
-/**
- * Functions for calculation of expire dates.
- * @type {ExpirePeriods}
- */
+/** All available expire date calculators. */
 const expirePeriods: ExpirePeriods = {
   year: (date) => new Date(date.setFullYear(date.getFullYear() + 1)),
   month: (date) => new Date(date.setMonth(date.getMonth() + 1)),
@@ -11,15 +10,13 @@ const expirePeriods: ExpirePeriods = {
 };
 
 /**
- * Function for validation of expire periods.
- * @param {string} period - Period key text.
- * @returns {boolean} - Result of validation.
+ * Verifies that the {@link period} is a valid kind of the expire period.
+ * @param period
  */
 export const isValidExpirePeriod = (period: string): boolean => period in expirePeriods;
 
 /**
- * Function for creation of expire dates.
- * @param {keyof ExpirePeriods} period - Period key.
- * @returns {Date} - Result of calculating expire date.
+ * Calculate expire date between today's date and expire period kind.
+ * @param period
  */
 export const createExpireDate = (period: ExpirePeriod): Date => expirePeriods[period](new Date());

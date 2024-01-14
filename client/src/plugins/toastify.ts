@@ -1,3 +1,5 @@
+/** @fileoverview Configuration of the vue3-toastify library. */
+
 import { ToastContainerOptions } from 'vue3-toastify/index';
 
 export const toastContainerOptions = {

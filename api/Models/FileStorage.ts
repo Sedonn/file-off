@@ -1,3 +1,5 @@
+/** @fileoverview Wrapper for MongoDB GridFS. */
+
 import mongoose, { Types } from 'mongoose';
 import { Readable } from 'stream';
 
@@ -53,12 +55,12 @@ class FileStorage {
     this._bucket = new mongoose.mongo.GridFSBucket(db);
     this._collection = db.collection<TUserFile>(this._COLLECTION_NAME);
 
-    // Creating index on "metadata.expireAt" for auto delete document after certain time
+    // Create index on "metadata.expireAt" for auto delete document after certain time
     this._collection.createIndex({ 'metadata.expireAt': 1 }, { expireAfterSeconds: 0 });
   }
 
   /**
-   * Is the file exists with certain filename and receiver id.
+   * Is the uploading file exists with certain filename and receiver id.
    * @param userId
    * @param filename
    * @param receiverId
@@ -138,16 +140,16 @@ class FileStorage {
   }
 
   /**
-   * Function for getting the download stream of certain file.
-   * @param {Types.ObjectId} fileId - File ID.
+   * Get the download stream of certain file
+   * @param fileId
    */
   public getFileDownloadStream(fileId: Types.ObjectId) {
     return this._bucket.openDownloadStream(fileId);
   }
 
   /**
-   * Function for getting the file data of recently loaded file.
-   * @param {Types.ObjectId} fileId - File ID.
+   * Get a data about the certain uploaded file.
+   * @param fileId
    */
   public async getUploadedFile(fileId: Types.ObjectId) {
     return this._collection
@@ -167,9 +169,8 @@ class FileStorage {
   }
 
   /**
-   * Function for getting all uploaded by user files.
-   * @param {Types.ObjectId} userId - User ID.
-   * @returns - All uploaded by user files.
+   * Get a data about the all files uploaded by user.
+   * @param userId
    */
   public async getUploadedFiles(userId: Types.ObjectId) {
     return this._collection
@@ -189,9 +190,8 @@ class FileStorage {
   }
 
   /**
-   * Function for getting all available to download files by user.
-   * @param {Types.ObjectId} userId - User ID.
-   * @returns - All available to download files by user.
+   * Get a data about the all downloadable files by user.
+   * @param userId
    */
   public async getDownloadableFiles(userId: Types.ObjectId) {
     return this._collection
@@ -211,8 +211,8 @@ class FileStorage {
   }
 
   /**
-   * Function for deleting file.
-   * @param {Types.ObjectId} fileId - File ID.
+   * Delete the certain file.
+   * @param fileId
    */
   public async deleteFile(fileId: Types.ObjectId) {
     return this._bucket.delete(fileId);

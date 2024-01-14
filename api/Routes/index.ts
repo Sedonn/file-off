@@ -1,3 +1,5 @@
+/** @fileoverview The main router. */
+
 import express from 'express';
 import passport from 'passport';
 

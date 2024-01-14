@@ -12,6 +12,7 @@ export const loginUser = async (
   return data.token;
 };
 
+/** Register the new user. */
 export const registerUser = async (newUser: TUser) => {
   await APIService.post('/user/register', newUser);
 };

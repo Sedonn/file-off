@@ -1,3 +1,5 @@
+/** @fileoverview Controllers for the operations with files. */
+
 import { NextFunction, Request, Response } from 'express';
 
 import { Types } from 'mongoose';
@@ -9,19 +11,19 @@ import { createExpireDate } from '../Models/expireDate';
 import APIError from '../utils/APIError';
 
 type UploadFileRequestBody = {
-  /** Login of a file receiver. */
+  /** Login of the file receiver. */
   receiver: string;
-  /** Type of a expire period. */
+  /** Kind of the expire period. */
   expireAt: ExpirePeriod;
 };
 
 type UploadFileRequest = Request<object, object, UploadFileRequestBody>;
 
 /**
- * Function for upload the file.
- * @param {UploadFileRequest} req
- * @param {Response} res
- * @param {NextFunction} next
+ * Upload a file to the database.
+ * @param req
+ * @param res
+ * @param next
  */
 export const uploadFile = async (
   { app, body, user, file }: UploadFileRequest,
@@ -39,12 +41,10 @@ export const uploadFile = async (
     return next(new APIError(400, 'SENDER_EQUALS_RECEIVER'));
   }
 
-  // Checking existing of file with equal filename and receiver
   if (await $fileStorage.isUploadingFileUnique(user!.id, file!.originalname, receiver._id)) {
     return next(new APIError(400, 'DUPLICATE_FILE'));
   }
 
-  // Uploading file to database
   const metadata = {
     mimetype: file!.mimetype,
     senderId: user!.id,
@@ -67,10 +67,10 @@ type DownloadFileRequestQuery = {
 type DownloadFileRequest = Request<object, object, object, DownloadFileRequestQuery>;
 
 /**
- * Function for download the file.
- * @param {DownloadFileRequest} req
- * @param {Response} res
- * @param {NextFunction} next
+ * Download a file from the database.
+ * @param req
+ * @param res
+ * @param next
  */
 export const downloadFile = async (
   { app, user, query }: DownloadFileRequest,
@@ -79,13 +79,11 @@ export const downloadFile = async (
 ) => {
   const { $fileStorage } = app;
 
-  // Checking existing of file
   const file = await $fileStorage.getDownloadableFile(user!.id, new Types.ObjectId(query.fileId));
   if (!file) {
     return next(new APIError(404, 'FILE_NOT_FOUND'));
   }
 
-  // Set response headers before download
   res.setHeader('Content-disposition', 'attachment;');
   res.setHeader('Content-type', file.metadata.mimetype);
 
@@ -107,10 +105,11 @@ type DeleteFileRequestBody = {
 type DeleteFileRequest = Request<object, object, DeleteFileRequestBody>;
 
 /**
- * Function for delete the file.
- * @param {DeleteFileRequest} req
- * @param {Response} res
- * @param {NextFunction} next
+ * Delete a file from the database.
+ * @param req
+ * @param res
+ * @param next
+ * @returns
  */
 export const deleteFile = async (
   { app, body, user }: DeleteFileRequest,
@@ -139,9 +138,9 @@ export const deleteFile = async (
 };
 
 /**
- * Function for getting all files uploaded by user.
- * @param {Request} req
- * @param {Response} res
+ * Get all files uploaded by user.
+ * @param req
+ * @param res
  */
 export const getUploadedFiles = async ({ app, user }: Request, res: Response) => {
   const { $fileStorage } = app;
@@ -152,9 +151,9 @@ export const getUploadedFiles = async ({ app, user }: Request, res: Response) =>
 };
 
 /**
- * Function for getting all available to user downloads.
- * @param {Request} req
- * @param {Response} res
+ * Get all downloadable by user files.
+ * @param req
+ * @param res
  */
 export const getDownloadableFiles = async ({ app, user }: Request, res: Response) => {
   const { $fileStorage } = app;

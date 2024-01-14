@@ -1,3 +1,5 @@
+/** @fileoverview File routes. */
+
 import express from 'express';
 import multer from 'multer';
 

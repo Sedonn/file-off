@@ -1,5 +1,9 @@
-/** @fileoverview Commonly used functions for the form data validation. */
+/** @fileoverview Common functions for the form data validation. */
 
+/**
+ * Create a method that verifies a empty string fields with a certain error message.
+ * @param errorMessage
+ */
 export const createEmptyFieldValidationRule =
   (errorMessage: string) => (value: string) => {
     if (value) {
@@ -9,6 +13,10 @@ export const createEmptyFieldValidationRule =
     return errorMessage;
   };
 
+/**
+ * Create a method that verifies a empty file fields with a certain error message.
+ * @param errorMessage
+ */
 export const createEmptyFileFieldValidationRule =
   (errorMessage: string) => (value: File[]) => {
     if (value && value.length) {

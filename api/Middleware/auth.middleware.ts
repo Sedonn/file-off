@@ -1,3 +1,5 @@
+/** @fileoverview Setting up the app authorization. */
+
 import { Types } from 'mongoose';
 import { Strategy as JWTStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 
@@ -5,7 +7,6 @@ import UserModel from '../Models/user';
 import { JWT_TOKEN_SECRET } from '../config';
 import APIError from '../utils/APIError';
 
-/** Setting up strategy */
 const strategyOptions: StrategyOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: JWT_TOKEN_SECRET,

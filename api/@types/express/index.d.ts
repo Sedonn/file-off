@@ -9,7 +9,6 @@ declare global {
     }
 
     interface Application {
-      /** File storage. */
       $fileStorage: FileStorage;
     }
   }

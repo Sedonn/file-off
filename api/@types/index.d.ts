@@ -1,5 +1,6 @@
 import { Types } from 'mongoose';
 
+/** Base user type. */
 type TUser = {
   name: string;
   surname: string;
@@ -8,8 +9,10 @@ type TUser = {
   password: string;
 };
 
+/** User data that is sent to the client. */
 type TUserPreview = Pick<TUser, 'login'>;
 
+/** Base user file metadata type. */
 type TUserFileMetaData = {
   mimetype: string;
   senderId: Types.ObjectId;
@@ -17,8 +20,10 @@ type TUserFileMetaData = {
   expireAt: Date;
 };
 
+/** User file metadata that is send to the client. */
 type TUserFileMetaDataPreview = Pick<TUserFileMetaData, 'expireAt' | 'mimetype'>;
 
+/** Base user file type. */
 type TUserFile<M = TUserFileMetaData> = {
   _id: Types.ObjectId;
   length: number;
@@ -28,16 +33,20 @@ type TUserFile<M = TUserFileMetaData> = {
   metadata: M;
 };
 
+/** User file data that is send to the client. */
 type TUserFilePreview<M = TUserFileMetaDataPreview> = Omit<TUserFile<M>, 'length' | 'chunkSize'>;
 
+/** File uploaded by the user. */
 type TUserUploadedFile = TUserFilePreview & {
   receiver: TUserPreview;
 };
 
+/** File that the user can download. */
 type TUserDownloadableFile = TUserFilePreview & {
   sender: TUserPreview;
 };
 
+/** Known error codes that occur during file data operations. */
 type TFileErrorCode =
   | 'RECEIVER_NOT_FOUND'
   | 'RECEIVER_EMPTY'
@@ -53,6 +62,7 @@ type TFileErrorCode =
   | 'FILE_DOWNLOAD_FAILED'
   | 'FILE_DELETE_FAILED';
 
+/** Known error codes that occur during user data operations. */
 type TUserErrorCode =
   | 'DUPLICATE_LOGIN'
   | 'DUPLICATE_EMAIL'
@@ -66,14 +76,17 @@ type TUserErrorCode =
   | 'REGISTER_FAILED'
   | 'AUTHORIZATION_FAILED';
 
+/** All known error codes. */
 type TAPIErrorCode = TFileErrorCode | TUserErrorCode | 'UNKNOWN_ERROR';
 
 type ErrorResponse = {
   errorCode: TAPIErrorCode[];
 };
 
+/** File retention period type. */
 type ExpirePeriod = 'year' | 'month' | 'week';
 
+/** Methods which are calculating the end date of file storage. */
 type ExpirePeriods = {
   [period in ExpirePeriod]: (date: Date) => Date;
 };

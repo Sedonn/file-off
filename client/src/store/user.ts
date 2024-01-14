@@ -1,3 +1,5 @@
+/** @fileoverview Store that controls current authenticated user. */
+
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import Cookie, { CookieAttributes } from 'js-cookie';
@@ -14,7 +16,7 @@ export const useUserStore = defineStore('user', () => {
   );
 
   /**
-   * Save the user data to store.
+   * Save the user data to store and cookie files.
    * @param userToken
    * @param userLogin
    * @param remember

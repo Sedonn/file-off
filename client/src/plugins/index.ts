@@ -1,10 +1,5 @@
-/**
- * plugins/index.ts
- *
- * Automatically included in `./src/main.ts`
- */
+/** @fileoverview Setting up of the all used plugins. */
 
-// Plugins
 import vuetify from './vuetify';
 import Vue3Toastify from 'vue3-toastify';
 import { toastContainerOptions } from './toastify';
@@ -12,7 +7,6 @@ import pinia from '../store';
 import router from '../router';
 import i18n from './i18n';
 
-// Types
 import type { App } from 'vue';
 
 export function registerPlugins(app: App) {

@@ -1,4 +1,4 @@
-/** @fileoverview Variables from {@link process.env} with some default values */
+/** @fileoverview Variables from {@link process.env} with default values. */
 
 export const {
   CORS_ALLOW_ORIGINS,

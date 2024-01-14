@@ -1,8 +1,9 @@
+/** @fileoverview Creation of the user model. */
+
 import mongoose from 'mongoose';
 
 import { TUser } from '../@types';
 
-// Creating the user Schema
 const userSchema = new mongoose.Schema<TUser>({
   name: String,
   surname: String,

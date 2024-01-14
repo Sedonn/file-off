@@ -3,6 +3,12 @@ import { saveAs } from 'file-saver';
 
 import { APIService } from './APIService';
 
+/**
+ * Upload the user file.
+ * @param file
+ * @param receiverLogin
+ * @param expirePeriod
+ */
 export const uploadFile = async (
   file: File,
   receiverLogin: string,
@@ -29,6 +35,10 @@ export const uploadFile = async (
   return data;
 };
 
+/**
+ * Delete the user file.
+ * @param fileId
+ */
 export const deleteFile = async (fileId: string): Promise<void> =>
   APIService.delete('/file', { data: { fileId } });
 
@@ -41,12 +51,14 @@ export const downloadFile = async ({ _id: fileId, filename }: TUserFile) => {
   saveAs(fileContent, filename);
 };
 
+/** Get a data about the all files uploaded by user. */
 export const getUploadedFiles = async () => {
   const { data } = await APIService.get<TUserUploadedFile[]>('/file');
 
   return data;
 };
 
+/** Get a data about the all downloadable files by user. */
 export const getDownloadableFiles = async () => {
   const { data } = await APIService.get<TUserDownloadableFile[]>(
     '/file/downloads',

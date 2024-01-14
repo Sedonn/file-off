@@ -1,3 +1,5 @@
+/** @fileoverview Store that controls all UI. */
+
 import { defineStore } from 'pinia';
 
 import { ref } from 'vue';

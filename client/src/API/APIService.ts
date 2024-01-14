@@ -1,3 +1,5 @@
+/** @fileoverview Configuration of the general API service. */
+
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { useUserStore } from '@/store/user';

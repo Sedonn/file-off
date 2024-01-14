@@ -1,4 +1,3 @@
-/** The user. */
 type TUser = {
   name: string;
   surname: string;

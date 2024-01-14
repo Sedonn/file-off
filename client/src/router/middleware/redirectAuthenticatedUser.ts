@@ -1,3 +1,5 @@
+/** @fileoverview Redirect a authenticated users middleware. */
+
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import { useUserStore } from '@/store/user';

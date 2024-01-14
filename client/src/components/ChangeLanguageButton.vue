@@ -52,6 +52,10 @@ const localeIconClass = computed(() =>
   getLocaleIconClass(locale.value as TAvailableLocales),
 );
 
+/**
+ * Get classes to show language icon.
+ * @param localeKey
+ */
 const getLocaleIconClass = (localeKey: TAvailableLocales) => {
   const iconConfig = {
     en: 'fi-gb',
