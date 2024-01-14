@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { Types } from 'mongoose';
 
-import { ExpirePeriod, TUserFileMetaData } from '../@types';
+import { ExpirePeriod, TUserDownloadableFile, TUserFileMetaData, TUserUploadedFile } from '../@types';
 
 import UserModel from '../Models/user';
 import { createExpireDate } from '../Models/expireDate';
@@ -27,7 +27,7 @@ type UploadFileRequest = Request<object, object, UploadFileRequestBody>;
  */
 export const uploadFile = async (
   { app, body, user, file }: UploadFileRequest,
-  res: Response,
+  res: Response<TUserUploadedFile>,
   next: NextFunction,
 ) => {
   const { $fileStorage } = app;
@@ -54,7 +54,7 @@ export const uploadFile = async (
 
   try {
     const uploadedFile = await $fileStorage.saveFile(file!, metadata);
-    return res.status(200).json(uploadedFile);
+    return res.status(200).json(uploadedFile!);
   } catch {
     return next(new APIError(500, 'FILE_UPLOAD_FAILED'));
   }
@@ -142,7 +142,7 @@ export const deleteFile = async (
  * @param req
  * @param res
  */
-export const getUploadedFiles = async ({ app, user }: Request, res: Response) => {
+export const getUploadedFiles = async ({ app, user }: Request, res: Response<TUserUploadedFile[]>) => {
   const { $fileStorage } = app;
 
   const files = await $fileStorage.getUploadedFiles(user!.id);
@@ -155,7 +155,10 @@ export const getUploadedFiles = async ({ app, user }: Request, res: Response) =>
  * @param req
  * @param res
  */
-export const getDownloadableFiles = async ({ app, user }: Request, res: Response) => {
+export const getDownloadableFiles = async (
+  { app, user }: Request,
+  res: Response<TUserDownloadableFile[]>,
+) => {
   const { $fileStorage } = app;
 
   const files = await $fileStorage.getDownloadableFiles(user!.id);

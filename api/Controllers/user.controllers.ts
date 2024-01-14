@@ -48,7 +48,11 @@ type LoginUserRequest = Request<object, object, LoginUserRequestBody>;
  * @param res
  * @param next
  */
-export const loginUser = async ({ body }: LoginUserRequest, res: Response, next: NextFunction) => {
+export const loginUser = async (
+  { body }: LoginUserRequest,
+  res: Response<{ token: string }>,
+  next: NextFunction,
+) => {
   const user = await UserModel.findOne({ login: body.login });
   if (!user || !(await bcrypt.compare(body.password, user.password))) {
     return next(new APIError(401, 'AUTHORIZATION_FAILED'));
