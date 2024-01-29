@@ -5,11 +5,11 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "rootDir": "./",
-    "outDir": "./build",
+    "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
     "typeRoots": [
-      "./@types",
+      "./src/@types",
       "./node_modules/@types"
     ],
     "paths": {

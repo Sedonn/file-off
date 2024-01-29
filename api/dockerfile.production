@@ -1,16 +1,16 @@
 FROM node:20.9.0-alpine
 
 # Building stage
-WORKDIR /app/src
+WORKDIR /app/pre-build
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-RUN cp -r ./build/* /app/
+RUN cp -r ./dist/src/* /app/
 
 # Launching stage
 WORKDIR /app
-RUN rm -rf ./src
+RUN rm -rf ./pre-build
 COPY package*.json ./
 RUN npm install --omit=dev
-CMD node app.js
+CMD npm run start

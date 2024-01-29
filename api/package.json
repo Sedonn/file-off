@@ -5,8 +5,9 @@
   "description": "Backend part of File-off app",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -L app.ts",
+    "dev": "nodemon -L src/app.ts",
     "build": "tsc --project ./",
     "lint": "eslint . --ext .ts"
   },

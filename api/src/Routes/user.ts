@@ -3,7 +3,7 @@
 import express from 'express';
 
 import { loginUserSanitizer, loginUserValidator, registerUserValidator } from '../Middleware/validation/user';
-import { loginUser, registerUser } from '../Controllers/user.controllers';
+import { loginUser, registerUser } from '../Controllers/user';
 
 const router = express.Router();
 

@@ -9,7 +9,7 @@ import {
   getDownloadableFiles,
   getUploadedFiles,
   uploadFile,
-} from '../Controllers/file.controllers';
+} from '../Controllers/file';
 import {
   deleteFileSanitizer,
   deleteFileValidator,

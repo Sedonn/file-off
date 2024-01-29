@@ -8,9 +8,9 @@ import passport from 'passport';
 import routes from './Routes';
 
 import { CORS_ALLOW_ORIGINS, DB_URL, PORT } from './config';
-import fileOffJWTStrategy from './Middleware/auth.middleware';
+import fileOffJWTStrategy from './Middleware/auth';
 import FileStorage from './Models/FileStorage';
-import globalErrorHandler from './Middleware/error.middleware';
+import globalErrorHandler from './Middleware/error';
 
 passport.use(fileOffJWTStrategy);
 
