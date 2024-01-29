@@ -2,19 +2,19 @@ version: '3'
 
 name: file-off-production
 services:
-  db:
-    container_name: db
+  file-off-db:
+    container_name: file-off-db
 
-  api:
-    container_name: api
+  file-off-api:
+    container_name: file-off-api
     build:
       dockerfile: dockerfile.production
     environment:
       - NODE_ENV=production
       - CORS_ALLOW_ORIGINS=http://localhost:8081
 
-  client:
-    container_name: client
+  file-off-client:
+    container_name: file-off-client
     build:
       dockerfile: dockerfile.production
       args:

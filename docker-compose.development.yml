@@ -2,11 +2,12 @@ version: '3'
 
 name: file-off-development
 services:
-  db:
-    container_name: db-dev
+  file-off-db:
+    container_name: file-off-db-dev
 
-  api:
-    container_name: api-dev
+  file-off-api:
+    container_name: file-off-api-dev
+    image: file-off-api-dev
     build:
       dockerfile: dockerfile.development
     environment:
@@ -16,8 +17,9 @@ services:
       - ./api:/app/
       - /app/node_modules
 
-  client:
-    container_name: client-dev
+  file-off-client:
+    container_name: file-off-client-dev
+    image: file-off-client-dev
     build:
       dockerfile: dockerfile.development
     ports:
