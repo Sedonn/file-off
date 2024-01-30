@@ -4,8 +4,11 @@
       <v-toolbar-title>{{ file.filename }}</v-toolbar-title>
       <template #append>
         <v-menu>
-          <template v-slot:activator="{ props }">
-            <v-btn icon="mdi-dots-vertical" v-bind="props" />
+          <template #activator="{ props: menuProps }">
+            <v-btn
+              icon="mdi-dots-vertical"
+              v-bind="menuProps"
+            />
           </template>
 
           <v-list>
@@ -15,20 +18,27 @@
               rounded
               @click="onFileDelete"
             >
-              <v-list-item-title>{{
-                t('fileCard.menu.deleteOption')
-              }}</v-list-item-title>
+              <v-list-item-title>
+                {{ t('fileCard.menu.deleteOption') }}
+              </v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
       </template>
     </v-toolbar>
 
-    <v-divider color="background" thickness="2" class="border-opacity-100" />
+    <v-divider
+      color="background"
+      thickness="2"
+      class="border-opacity-100"
+    />
 
     <v-card-text class="pa-2">
       <div class="d-flex align-center">
-        <v-icon icon="mdi-file" size="75" />
+        <v-icon
+          icon="mdi-file"
+          size="75"
+        />
 
         <v-list density="compact">
           <file-card-description-item
@@ -51,7 +61,10 @@
     </v-card-text>
 
     <v-card-actions v-if="$slots.actions">
-      <slot name="actions" :file="file" />
+      <slot
+        name="actions"
+        :file="file"
+      />
     </v-card-actions>
   </v-card>
 </template>

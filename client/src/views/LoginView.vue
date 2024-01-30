@@ -10,9 +10,9 @@
       <change-language-button color="surface-white" />
     </div>
 
-    <v-card-title class="text-h2 pa-10 text-center">{{
-      t('loginPage.title')
-    }}</v-card-title>
+    <v-card-title class="text-h2 pa-10 text-center">
+      {{ t('loginPage.title') }}
+    </v-card-title>
 
     <v-form
       validate-on="submit"
@@ -44,15 +44,19 @@
           type="submit"
           class="bg-surface-white w-100"
           append-icon="mdi-login"
-          >{{ t('loginPage.form.submitButtonLabel') }}</v-btn
         >
+          {{ t('loginPage.form.submitButtonLabel') }}
+        </v-btn>
       </v-sheet>
     </v-form>
     <v-card-text class="text-body-1 text-center">
       {{ t('loginPage.registerMessage.text') }}
-      <router-link class="text-white" to="/register">
-        {{ t('loginPage.registerMessage.link') }}</router-link
+      <router-link
+        class="text-white"
+        to="/register"
       >
+        {{ t('loginPage.registerMessage.link') }}
+      </router-link>
     </v-card-text>
   </v-card>
 </template>

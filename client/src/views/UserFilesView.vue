@@ -4,7 +4,10 @@
     ref="fileUploadDialogRef"
   />
 
-  <div v-if="!uploadedFiles" class="d-flex ga-2 flex-wrap">
+  <div
+    v-if="!uploadedFiles"
+    class="d-flex ga-2 flex-wrap"
+  >
     <v-skeleton-loader
       v-for="index in 3"
       :key="index"
@@ -21,7 +24,10 @@
       {{ t('userFilesPage.emptyUploads') }}
     </div>
   </div>
-  <div v-else class="d-flex ga-2 flex-wrap">
+  <div
+    v-else
+    class="d-flex ga-2 flex-wrap"
+  >
     <file-card
       v-for="file in uploadedFiles"
       :key="file._id"

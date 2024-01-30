@@ -1,5 +1,8 @@
 <template>
-  <div v-if="!downloadableFiles" class="d-flex ga-2 flex-wrap">
+  <div
+    v-if="!downloadableFiles"
+    class="d-flex ga-2 flex-wrap"
+  >
     <v-skeleton-loader
       v-for="index in 3"
       :key="index"
@@ -16,18 +19,21 @@
       {{ t('userDownloadsPage.emptyDownloads') }}
     </div>
   </div>
-  <div v-else class="d-flex ga-2 flex-wrap">
+  <div
+    v-else
+    class="d-flex ga-2 flex-wrap"
+  >
     <file-card
-      v-for="file in downloadableFiles"
-      :key="file._id"
-      :file="file"
+      v-for="downloadableFile in downloadableFiles"
+      :key="downloadableFile._id"
+      :file="downloadableFile"
       @file-deleted="onFileDeleted"
     >
       <file-card-description-item
         :title="t('userDownloadsPage.fileCard.sender')"
         icon="mdi-account"
       >
-        {{ file.sender.login }}
+        {{ downloadableFile.sender.login }}
       </file-card-description-item>
 
       <template #actions="{ file }">

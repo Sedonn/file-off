@@ -1,10 +1,14 @@
 <template>
   <site-header />
-  <v-card class="mt-9 pa-5" rounded="xl" width="350">
+  <v-card
+    class="mt-9 pa-5"
+    rounded="xl"
+    width="350"
+  >
     <v-card-title class="text-h1 pa-10 text-center">404</v-card-title>
-    <v-card-text class="text-h5 mt-5 text-center">{{
-      t('notFoundPage.title')
-    }}</v-card-text>
+    <v-card-text class="text-h5 mt-5 text-center">
+      {{ t('notFoundPage.title') }}
+    </v-card-text>
 
     <v-btn
       class="mt-5"

@@ -1,33 +1,42 @@
 <template>
   <v-menu>
-    <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" :color="color">
+    <template #activator="{ props }">
+      <v-btn
+        v-bind="props"
+        :color="color"
+      >
         <v-badge color="transparent">
           <template #badge>
-            <span :class="localeIconClass" style="width: 18px; height: 18px" />
+            <span
+              :class="localeIconClass"
+              style="width: 18px; height: 18px"
+            />
           </template>
-          <v-icon icon="mdi-web" size="x-large" />
+          <v-icon
+            icon="mdi-web"
+            size="x-large"
+          />
         </v-badge>
       </v-btn>
     </template>
 
     <v-list>
       <v-list-item
-        v-for="locale in $i18n.availableLocales"
-        :key="locale"
+        v-for="availableLocale in $i18n.availableLocales"
+        :key="availableLocale"
         class="em bg-surface-white"
         rounded
-        @click="onLanguageChange(locale as TAvailableLocales)"
+        @click="onLanguageChange(availableLocale as TAvailableLocales)"
       >
         <template #prepend>
           <span
             class="mr-2"
-            :class="getLocaleIconClass(locale as TAvailableLocales)"
+            :class="getLocaleIconClass(availableLocale as TAvailableLocales)"
           />
         </template>
-        <v-list-item-title class="text-uppercase">{{
-          locale
-        }}</v-list-item-title>
+        <v-list-item-title class="text-uppercase">
+          {{ availableLocale }}
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

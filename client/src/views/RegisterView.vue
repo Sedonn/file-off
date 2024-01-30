@@ -13,9 +13,9 @@
       <change-language-button color="surface-white" />
     </div>
 
-    <v-card-title class="text-h2 pa-10 text-center">{{
-      t('registerPage.title')
-    }}</v-card-title>
+    <v-card-title class="text-h2 pa-10 text-center">
+      {{ t('registerPage.title') }}
+    </v-card-title>
 
     <v-form
       :disabled="uiController.isLoading"
@@ -62,8 +62,9 @@
           type="submit"
           class="bg-surface-white w-100"
           append-icon="mdi-account-plus"
-          >{{ t('registerPage.form.submitButtonLabel') }}</v-btn
         >
+          {{ t('registerPage.form.submitButtonLabel') }}
+        </v-btn>
       </v-sheet>
     </v-form>
   </v-card>

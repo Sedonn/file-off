@@ -1,27 +1,44 @@
 <template>
-  <v-dialog ref="testRef" v-model="isDialogOpen" max-width="530" persistent>
+  <v-dialog
+    v-model="isDialogOpen"
+    max-width="530"
+    persistent
+  >
     <v-card color="background">
       <v-toolbar
         color="surface"
         :title="t('registerCompleteDialog.title')"
         density="compact"
       >
-        <v-btn icon="mdi-close" @click="close" />
+        <v-btn
+          icon="mdi-close"
+          @click="close"
+        />
       </v-toolbar>
 
       <div class="d-flex pa-2">
-        <v-icon icon="mdi-check" color="success" size="150" />
+        <v-icon
+          icon="mdi-check"
+          color="success"
+          size="150"
+        />
         <div class="d-flex flex-column">
-          <v-card-title>{{
-            t('registerCompleteDialog.subtitle')
-          }}</v-card-title>
+          <v-card-title>
+            {{ t('registerCompleteDialog.subtitle') }}
+          </v-card-title>
           <v-card-text>
             {{ t('registerCompleteDialog.description') }}
           </v-card-text>
         </div>
       </div>
       <v-card-actions>
-        <v-btn class="bg-surface" @click="close" block>OK</v-btn>
+        <v-btn
+          class="bg-surface"
+          @click="close"
+          block
+        >
+          OK
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

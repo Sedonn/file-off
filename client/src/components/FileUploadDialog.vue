@@ -10,10 +10,16 @@
         :title="t('fileUploadDialog.title')"
         density="compact"
       >
-        <v-btn icon="mdi-close" @click="close" />
+        <v-btn
+          icon="mdi-close"
+          @click="close"
+        />
       </v-toolbar>
 
-      <v-divider thickness="2" class="border-opacity-100" />
+      <v-divider
+        thickness="2"
+        class="border-opacity-100"
+      />
 
       <v-form
         :disabled="uiController.isLoading"
@@ -58,8 +64,9 @@
           color="success"
           block
           append-icon="mdi-upload"
-          >{{ t('fileUploadDialog.form.submitButton') }}</v-btn
         >
+          {{ t('fileUploadDialog.form.submitButton') }}
+        </v-btn>
       </v-form>
     </v-card>
   </v-dialog>

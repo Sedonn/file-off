@@ -1,11 +1,18 @@
 <template>
-  <v-toolbar class="bg-surface-white" elevation="5" style="z-index: 1">
-    <v-btn icon="mdi-menu" @click="uiController.toggleSidebar" />
+  <v-toolbar
+    class="bg-surface-white"
+    elevation="5"
+    style="z-index: 1"
+  >
+    <v-btn
+      icon="mdi-menu"
+      @click="uiController.toggleSidebar"
+    />
 
     <v-toolbar-title>
-      <span class="text-surface text-decoration-underline">{{
-        t($route.meta.pageTitleI18nKey)
-      }}</span>
+      <span class="text-surface text-decoration-underline">
+        {{ t($route.meta.pageTitleI18nKey) }}
+      </span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -22,8 +29,14 @@
     />
 
     <v-sheet class="mr-4 bg-surface-white d-flex align-center">
-      <v-avatar size="48" class="ma-3">
-        <v-icon size="48" icon="mdi-account-circle" />
+      <v-avatar
+        size="48"
+        class="ma-3"
+      >
+        <v-icon
+          size="48"
+          icon="mdi-account-circle"
+        />
       </v-avatar>
       <div>{{ userStore.login }}</div>
     </v-sheet>
@@ -35,7 +48,11 @@
       vertical
     />
 
-    <v-btn icon="mdi-logout" class="ml-2" @click="userStore.logout" />
+    <v-btn
+      icon="mdi-logout"
+      class="ml-2"
+      @click="userStore.logout"
+    />
   </v-toolbar>
 </template>
 
