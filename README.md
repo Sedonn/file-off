@@ -9,6 +9,7 @@ The web service for one time file exchange created with Vue.js and Express.js on
   - [Motivation](#motivation)
   - [General info](#general-info)
   - [Technologies](#technologies)
+  - [Environment](#environment)
   - [Project Setup](#project-setup)
     - [Development mode](#development-mode)
     - [Production mode](#production-mode)
@@ -21,14 +22,21 @@ The motivation for creating this project is the graduate qualification work on t
 
 This is main docs about web-service for one time file exchange - File-off app.
 
-Frontend part docs is placed [here](https://github.com/Sedonn/file-off-REST-API/tree/master/client).
+Frontend part docs is placed [here](https://github.com/Sedonn/file-off/tree/master/client).
 
-Backend part docs is placed [here](https://github.com/Sedonn/file-off-REST-API/tree/master/api).
+Backend part docs is placed [here](https://github.com/Sedonn/file-off/tree/master/api).
 
 ## Technologies
 
 - Node.js: 20.9.0
 - Mongo DB: 5.0.6
+
+## Environment
+
+The entire app contains these environment variables:
+
+- `JWT_TOKEN_SECRET` - JWT secret for the API.
+- `MONGO_INITDB_ROOT_PASSWORD` - Password for the DB.
 
 ## Project Setup
 
