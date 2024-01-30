@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json.schemastore.org/swcrc",
+  "exclude": [
+    "node_modules/",
+    "@types/"
+  ],
+  "sourceMaps": "inline",
+  "module": {
+    "type": "es6",
+    "strictMode": true,
+    "resolveFully": true
+  },
+  "minify": true,
+  "jsc": {
+    "externalHelpers": false,
+    "target": "esnext",
+    "parser": {
+      "syntax": "typescript",
+      "decorators": true,
+      "tsx": false
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    },
+    "keepClassNames": false,
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "baseUrl": "./",
+    "minify": {
+      "compress": true,
+      "mangle": true,
+      "format": {
+        "comments": false
+      }
+    },
+    "experimental": {
+      "plugins": [
+        [
+          "@swc/plugin-transform-imports",
+          {
+            "^(.*)\\.ts$": {
+              "skipDefaultConversion": true,
+              "transform": "{{matches.[1]}}.js"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 /** @fileoverview Methods for managing expire dates of the file storage. */
 
-import { ExpirePeriod, ExpirePeriods } from '../@types';
+import type { ExpirePeriod, ExpirePeriods } from '@/@types/index.d.ts';
 
 /** All available expire date calculators. */
 const expirePeriods = {

@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 
-import { NextFunction, Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
-import APIError from '../utils/APIError';
+import { APIError } from '@/utils/APIError.ts';
 
-import { ErrorResponse } from '../@types';
+import type { ErrorResponse } from '@/@types/index.d.ts';
 
 /** Middleware which sending all API errors to the client. */
-const globalErrorHandler = async (
+export const globalErrorHandler = async (
   error: Error | APIError,
   req: Request,
   res: Response<ErrorResponse>,
@@ -22,5 +22,3 @@ const globalErrorHandler = async (
 
   return res.status(500).json({ errorCode: ['UNKNOWN_ERROR'] });
 };
-
-export default globalErrorHandler;

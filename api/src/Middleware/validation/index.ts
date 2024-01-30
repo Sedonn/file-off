@@ -1,11 +1,12 @@
 /** @fileoverview Common validators and sanitizers. */
 
-import { CustomSanitizer, CustomValidator, validationResult } from 'express-validator';
-
-import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
 import { Types } from 'mongoose';
 
-import { ErrorResponse } from '../../@types';
+import type { CustomSanitizer, CustomValidator, ValidationError } from 'express-validator';
+import type { Request, Response, NextFunction } from 'express';
+
+import type { ErrorResponse, TAPIErrorCode } from '@/@types/index.d.ts';
 
 /**
  * Default validation handler for all validation chains.
@@ -13,9 +14,9 @@ import { ErrorResponse } from '../../@types';
  * @param res
  * @param next
  */
-const defaultValidatorHandler = (req: Request, res: Response<ErrorResponse>, next: NextFunction) => {
+export const defaultValidatorHandler = (req: Request, res: Response<ErrorResponse>, next: NextFunction) => {
   const defaultValidationResult = validationResult.withDefaults({
-    formatter: (error) => error.msg,
+    formatter: (error: ValidationError) => error.msg as TAPIErrorCode,
   });
 
   const errors = defaultValidationResult(req);
@@ -43,5 +44,3 @@ export const isObjectId: CustomValidator = (value: string) => {
  * @param value
  */
 export const toObjectId: CustomSanitizer = (value: string) => new Types.ObjectId(value);
-
-export default defaultValidatorHandler;

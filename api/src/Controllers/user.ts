@@ -3,13 +3,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
-import { NextFunction, Request, Response } from 'express';
-import { TUser } from '../@types';
+import type { NextFunction, Request, Response } from 'express';
 
-import UserModel from '../Models/user';
+import { UserModel } from '@/Models/user.ts';
+import { JWT_TOKEN_SECRET } from '@/config.ts';
+import { APIError } from '@/utils/APIError.ts';
 
-import { JWT_TOKEN_SECRET } from '../config';
-import APIError from '../utils/APIError';
+import type { TJWTPayload, TUser } from '@/@types/index.d.ts';
 
 type RegisterUserRequest = Request<object, object, TUser>;
 
@@ -58,7 +58,7 @@ export const loginUser = async (
     return next(new APIError(401, 'AUTHORIZATION_FAILED'));
   }
 
-  const payload = { id: user._id };
+  const payload = { id: user._id.toString() } satisfies TJWTPayload;
   const token = jwt.sign(payload, JWT_TOKEN_SECRET, {
     expiresIn: body.remember ? '14d' : '1d',
   });

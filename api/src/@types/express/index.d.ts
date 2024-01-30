@@ -1,15 +1,11 @@
-import { Types } from 'mongoose';
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
 
-import FileStorage from '../../Models/FileStorage';
+import { Types } from 'mongoose';
 
 declare global {
   namespace Express {
     interface User {
       id: Types.ObjectId;
-    }
-
-    interface Application {
-      $fileStorage: FileStorage;
     }
   }
 }

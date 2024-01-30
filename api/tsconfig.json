@@ -1,21 +1,47 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
-    "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "rootDir": "./",
-    "outDir": "./dist",
-    "esModuleInterop": true,
+    /* Linting */
     "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    /* Bundler mode */
+    "skipLibCheck": true,
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": [
+      "esnext"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ESNext",
+    "verbatimModuleSyntax": true,
+    /* Paths */
+    "outDir": "./dist",
+    "baseUrl": ".",
     "typeRoots": [
       "./src/@types",
       "./node_modules/@types"
     ],
     "paths": {
       "@/*": [
-        "./*"
+        "src/*"
       ]
     }
-  }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vscode"
+  ]
 }

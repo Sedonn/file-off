@@ -2,12 +2,14 @@
 
 import express from 'express';
 
-import { loginUserSanitizer, loginUserValidator, registerUserValidator } from '../Middleware/validation/user';
-import { loginUser, registerUser } from '../Controllers/user';
+import {
+  loginUserSanitizer,
+  loginUserValidator,
+  registerUserValidator,
+} from '@/Middleware/validation/user.ts';
+import { loginUser, registerUser } from '@/Controllers/user.ts';
 
-const router = express.Router();
+export const userRouter = express.Router();
 
-router.post('/register', registerUserValidator, registerUser);
-router.post('/login', loginUserValidator, loginUserSanitizer, loginUser);
-
-export default router;
+userRouter.post('/register', registerUserValidator, registerUser);
+userRouter.post('/login', loginUserValidator, loginUserSanitizer, loginUser);

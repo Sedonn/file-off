@@ -1,10 +1,10 @@
 /** @fileoverview Creation of the user model. */
 
-import mongoose from 'mongoose';
+import { Schema, Model, model } from 'mongoose';
 
-import { TUser } from '../@types';
+import type { TUser } from '@/@types/index.d.ts';
 
-const userSchema = new mongoose.Schema<TUser>({
+const userSchema = new Schema<TUser, Model<TUser>>({
   name: String,
   surname: String,
   login: String,
@@ -12,4 +12,4 @@ const userSchema = new mongoose.Schema<TUser>({
   password: String,
 });
 
-export default mongoose.model<TUser>('User', userSchema);
+export const UserModel = model<TUser>('User', userSchema);

@@ -1,7 +1,13 @@
 import { Types } from 'mongoose';
 
+/** Data that stores in the app JWT tokens. */
+type TJWTPayload = {
+  id: string;
+};
+
 /** Base user type. */
 type TUser = {
+  _id: Types.ObjectId;
   name: string;
   surname: string;
   login: string;

@@ -5,12 +5,11 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import passport from 'passport';
 
-import routes from './Routes';
-
-import { CORS_ALLOW_ORIGINS, DB_URL, PORT } from './config';
-import fileOffJWTStrategy from './Middleware/auth';
-import FileStorage from './Models/FileStorage';
-import globalErrorHandler from './Middleware/error';
+import { mainRouter } from '@/Routes/index.ts';
+import { CORS_ALLOW_ORIGINS, DB_URL, PORT } from '@/config.ts';
+import { fileOffJWTStrategy } from '@/Middleware/authentication.ts';
+import { fileStorage } from '@/Models/FileStorage.ts';
+import { globalErrorHandler } from '@/Middleware/error.ts';
 
 passport.use(fileOffJWTStrategy);
 
@@ -26,21 +25,17 @@ app.use(
   }),
 );
 
-app.use('/api', routes);
+app.use('/api', mainRouter);
 app.use(globalErrorHandler);
 
-const initApp = async () => {
-  try {
-    await mongoose.connect(DB_URL);
-    console.log('Database is connected.');
+try {
+  await mongoose.connect(DB_URL);
+  console.log('Database is connected.');
 
-    app.$fileStorage = new FileStorage();
+  await fileStorage.connect();
 
-    app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-};
-
-initApp();
+  app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));
+} catch (error) {
+  console.error(error);
+  process.exit(1);
+}

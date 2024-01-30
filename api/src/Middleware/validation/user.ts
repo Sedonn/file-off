@@ -1,9 +1,11 @@
 /** @fileoverview Validators and sanitizers for the operations with users. */
 
-import { body, CustomValidator } from 'express-validator';
+/* eslint-disable newline-per-chained-call */
 
-import UserModel from '../../Models/user';
-import defaultValidatorHandler from '.';
+import { body, type CustomValidator } from 'express-validator';
+
+import { UserModel } from '@/Models/user.ts';
+import { defaultValidatorHandler } from './index.ts';
 
 /**
  * Verifies that the {@link login} is unique.

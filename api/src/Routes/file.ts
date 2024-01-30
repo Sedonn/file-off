@@ -9,26 +9,24 @@ import {
   getDownloadableFiles,
   getUploadedFiles,
   uploadFile,
-} from '../Controllers/file';
+} from '@/Controllers/file.ts';
 import {
   deleteFileSanitizer,
   deleteFileValidator,
   downloadFileSanitizer,
   downloadFileValidator,
   uploadFileValidator,
-} from '../Middleware/validation/file';
+} from '@/Middleware/validation/file.ts';
 
-const router = express.Router();
+export const fileRouter = express.Router();
 const upload = multer();
 
-router.get('/', getUploadedFiles);
+fileRouter.get('/', getUploadedFiles);
 
-router.post('/', upload.single('file'), ...uploadFileValidator, uploadFile);
+fileRouter.post('/', upload.single('file'), ...uploadFileValidator, uploadFile);
 
-router.delete('/', deleteFileValidator, deleteFileSanitizer, deleteFile);
+fileRouter.delete('/', deleteFileValidator, deleteFileSanitizer, deleteFile);
 
-router.get('/download', downloadFileValidator, downloadFileSanitizer, downloadFile);
+fileRouter.get('/download', downloadFileValidator, downloadFileSanitizer, downloadFile);
 
-router.get('/downloads', getDownloadableFiles);
-
-export default router;
+fileRouter.get('/downloads', getDownloadableFiles);

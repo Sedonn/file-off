@@ -1,6 +1,6 @@
-import { TAPIErrorCode } from '../@types';
+import type { TAPIErrorCode } from '@/@types/index.d.ts';
 
-class APIError extends Error {
+export class APIError extends Error {
   /** Http error code. */
   public readonly httpCode: number;
 
@@ -14,5 +14,3 @@ class APIError extends Error {
     this.errorCode = errorCode;
   }
 }
-
-export default APIError;

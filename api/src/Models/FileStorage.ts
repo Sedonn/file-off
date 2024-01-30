@@ -1,15 +1,23 @@
 /** @fileoverview Wrapper for MongoDB GridFS. */
 
-import mongoose, { Types } from 'mongoose';
+/* eslint-disable @typescript-eslint/indent */
+
+import mongoose, { Types, mongo } from 'mongoose';
 import { Readable } from 'stream';
 
-import { TUserDownloadableFile, TUserFile, TUserFileMetaData, TUserUploadedFile } from '../@types';
+import type { Collection } from 'mongodb';
+import type {
+  TUserDownloadableFile,
+  TUserFile,
+  TUserFileMetaData,
+  TUserUploadedFile,
+} from '@/@types/index.d.ts';
 
 /** Wrapper for MongoDB GridFS. */
 class FileStorage {
-  private readonly _COLLECTION_NAME: string = 'fs.files';
+  private readonly COLLECTION_NAME: string = 'fs.files';
 
-  private readonly _DEFAULT_FILE_PROJECTION: Record<keyof TUserFile | string, number> = {
+  private readonly DEFAULT_FILE_PROJECTION: Record<string, number> = {
     _id: 1,
     uploadDate: 1,
     filename: 1,
@@ -17,7 +25,7 @@ class FileStorage {
     'metadata.mimetype': 1,
   };
 
-  private readonly _LOOKUP_FOR_FILE_RECEIVER: Record<string, any>[] = [
+  private readonly LOOKUP_FOR_FILE_RECEIVER: Record<string, unknown>[] = [
     {
       $lookup: {
         from: 'users',
@@ -31,7 +39,7 @@ class FileStorage {
     },
   ];
 
-  private readonly _LOOKUP_FOR_FILE_SENDER: Record<string, any>[] = [
+  private readonly LOOKUP_FOR_FILE_SENDER: Record<string, unknown>[] = [
     {
       $lookup: {
         from: 'users',
@@ -45,18 +53,21 @@ class FileStorage {
     },
   ];
 
-  private _bucket;
+  private bucket!: InstanceType<typeof mongo.GridFSBucket>;
 
-  private _collection;
+  private collection!: Collection<TUserFile>;
 
-  constructor() {
+  /**
+   * Connect to the Mongo DB.
+   */
+  public async connect() {
     const { db } = mongoose.connection;
 
-    this._bucket = new mongoose.mongo.GridFSBucket(db);
-    this._collection = db.collection<TUserFile>(this._COLLECTION_NAME);
+    this.bucket = new mongo.GridFSBucket(db);
+    this.collection = db.collection<TUserFile>(this.COLLECTION_NAME);
 
     // Create index on "metadata.expireAt" for auto delete document after certain time
-    this._collection.createIndex({ 'metadata.expireAt': 1 }, { expireAfterSeconds: 0 });
+    await this.collection.createIndex({ 'metadata.expireAt': 1 }, { expireAfterSeconds: 0 });
   }
 
   /**
@@ -66,7 +77,7 @@ class FileStorage {
    * @param receiverId
    */
   public async isUploadingFileUnique(userId: Types.ObjectId, filename: string, receiverId: Types.ObjectId) {
-    const file = await this._collection.findOne({
+    const file = await this.collection.findOne({
       filename,
       'metadata.senderId': userId,
       'metadata.receiverId': receiverId,
@@ -82,7 +93,7 @@ class FileStorage {
    * @returns
    */
   public async isFileExistsInDownloadableFiles(userId: Types.ObjectId, fileId: Types.ObjectId) {
-    const file = await this._collection.findOne({
+    const file = await this.collection.findOne({
       _id: fileId,
       'metadata.receiverId': userId,
     });
@@ -97,7 +108,7 @@ class FileStorage {
    * @returns
    */
   public async isFileExistsInUploadedFiles(userId: Types.ObjectId, fileId: Types.ObjectId) {
-    const file = await this._collection.findOne({
+    const file = await this.collection.findOne({
       _id: fileId,
       'metadata.senderId': userId,
     });
@@ -117,7 +128,7 @@ class FileStorage {
   ): Promise<TUserUploadedFile | null> {
     return new Promise((resolve, reject) => {
       const uploadStream = Readable.from(buffer).pipe(
-        this._bucket.openUploadStream(originalname, { metadata }),
+        this.bucket.openUploadStream(originalname, { metadata }),
       );
 
       uploadStream
@@ -133,7 +144,7 @@ class FileStorage {
    * @returns
    */
   public async getDownloadableFile(userId: Types.ObjectId, fileId: Types.ObjectId) {
-    return this._collection.findOne({
+    return this.collection.findOne({
       _id: fileId,
       'metadata.receiverId': userId,
     });
@@ -144,7 +155,7 @@ class FileStorage {
    * @param fileId
    */
   public getFileDownloadStream(fileId: Types.ObjectId) {
-    return this._bucket.openDownloadStream(fileId);
+    return this.bucket.openDownloadStream(fileId);
   }
 
   /**
@@ -152,15 +163,15 @@ class FileStorage {
    * @param fileId
    */
   public async getUploadedFile(fileId: Types.ObjectId) {
-    return this._collection
+    return this.collection
       .aggregate<TUserUploadedFile>([
         {
           $match: { _id: fileId },
         },
-        ...this._LOOKUP_FOR_FILE_RECEIVER,
+        ...this.LOOKUP_FOR_FILE_RECEIVER,
         {
           $project: {
-            ...this._DEFAULT_FILE_PROJECTION,
+            ...this.DEFAULT_FILE_PROJECTION,
             'receiver.login': 1,
           },
         },
@@ -173,15 +184,15 @@ class FileStorage {
    * @param userId
    */
   public async getUploadedFiles(userId: Types.ObjectId) {
-    return this._collection
+    return this.collection
       .aggregate<TUserUploadedFile>([
         {
           $match: { 'metadata.senderId': userId },
         },
-        ...this._LOOKUP_FOR_FILE_RECEIVER,
+        ...this.LOOKUP_FOR_FILE_RECEIVER,
         {
           $project: {
-            ...this._DEFAULT_FILE_PROJECTION,
+            ...this.DEFAULT_FILE_PROJECTION,
             'receiver.login': 1,
           },
         },
@@ -194,15 +205,15 @@ class FileStorage {
    * @param userId
    */
   public async getDownloadableFiles(userId: Types.ObjectId) {
-    return this._collection
+    return this.collection
       .aggregate<TUserDownloadableFile>([
         {
           $match: { 'metadata.receiverId': userId },
         },
-        ...this._LOOKUP_FOR_FILE_SENDER,
+        ...this.LOOKUP_FOR_FILE_SENDER,
         {
           $project: {
-            ...this._DEFAULT_FILE_PROJECTION,
+            ...this.DEFAULT_FILE_PROJECTION,
             'sender.login': 1,
           },
         },
@@ -215,8 +226,8 @@ class FileStorage {
    * @param fileId
    */
   public async deleteFile(fileId: Types.ObjectId) {
-    return this._bucket.delete(fileId);
+    return this.bucket.delete(fileId);
   }
 }
 
-export default FileStorage;
+export const fileStorage = new FileStorage();

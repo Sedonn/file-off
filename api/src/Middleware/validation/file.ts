@@ -1,9 +1,12 @@
 /** @fileoverview Validators and sanitizers for the operations with files. */
 
-import { body, buildCheckFunction, checkSchema, query } from 'express-validator';
+/* eslint-disable newline-per-chained-call */
+/* eslint-disable implicit-arrow-linebreak */
 
-import { isValidExpirePeriod } from '../../Models/expireDate';
-import defaultValidatorHandler, { isObjectId, toObjectId } from '.';
+import { body, buildCheckFunction, checkSchema, query, type Meta } from 'express-validator';
+
+import { isValidExpirePeriod } from '@/Models/expireDate.ts';
+import { defaultValidatorHandler, isObjectId, toObjectId } from './index.ts';
 
 /**
  * Factory method that creates a validation chain for a certain request context.
@@ -17,7 +20,7 @@ export const uploadFileValidator = [
   checkSchema({
     file: {
       custom: {
-        options: (value, { req }) => req.file,
+        options: (value, { req }: Meta) => !!req.file,
         errorMessage: 'FILE_EMPTY',
       },
     },

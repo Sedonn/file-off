@@ -1,14 +1,14 @@
 /** @fileoverview The main router. */
 
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+
 import express from 'express';
 import passport from 'passport';
 
-import fileRouter from './file';
-import userRouter from './user';
+import { fileRouter } from './file.ts';
+import { userRouter } from './user.ts';
 
-const router = express.Router();
+export const mainRouter = express.Router();
 
-router.use('/user', userRouter);
-router.use('/file', passport.authenticate('jwt', { session: false }), fileRouter);
-
-export default router;
+mainRouter.use('/user', userRouter);
+mainRouter.use('/file', passport.authenticate('jwt', { session: false }), fileRouter);
