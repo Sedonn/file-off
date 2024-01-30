@@ -29,8 +29,8 @@ export const registerUser = async ({ body }: RegisterUserRequest, res: Response,
   });
   try {
     await user.save();
-  } catch (error) {
-    return next(new APIError(500, 'REGISTER_FAILED'));
+  } catch (error: unknown) {
+    return next(new APIError(500, 'REGISTER_FAILED', error));
   }
 
   return res.status(200).end();

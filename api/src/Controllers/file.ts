@@ -58,8 +58,8 @@ export const uploadFile = async (
   try {
     const uploadedFile = await fileStorage.saveFile(file!, metadata);
     return res.status(200).json(uploadedFile!);
-  } catch {
-    return next(new APIError(500, 'FILE_UPLOAD_FAILED'));
+  } catch (error: unknown) {
+    return next(new APIError(500, 'FILE_UPLOAD_FAILED', error));
   }
 };
 
@@ -96,7 +96,7 @@ export const downloadFile = async (
       await fileStorage.deleteFile(file._id);
       res.status(200).end();
     })
-    .on('error', () => next(new APIError(500, 'FILE_DOWNLOAD_FAILED')));
+    .on('error', (error: Error) => next(new APIError(500, 'FILE_DOWNLOAD_FAILED', error)));
 };
 
 type DeleteFileRequestBody = {
