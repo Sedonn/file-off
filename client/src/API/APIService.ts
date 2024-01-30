@@ -1,6 +1,10 @@
 /** @fileoverview Configuration of the general API service. */
 
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from 'axios';
 
 import { useUserStore } from '@/store/user';
 import { API_URL } from '@/config';
@@ -23,7 +27,7 @@ APIService.interceptors.request.use(
 
     return config;
   },
-  (error) => {
+  (error: AxiosError) => {
     const uiController = useUIController();
     uiController.stopLoading();
 
@@ -33,20 +37,20 @@ APIService.interceptors.request.use(
 
 APIService.interceptors.response.use(
   (response: AxiosResponse) => {
-    const userStore = useUserStore();
     const uiController = useUIController();
 
     uiController.stopLoading();
-
-    if (response.status === 401) {
-      userStore.logout();
-    }
 
     return response;
   },
-  (error) => {
+  (error: AxiosError) => {
+    const userStore = useUserStore();
     const uiController = useUIController();
     uiController.stopLoading();
+
+    if (error.response?.status === 401) {
+      userStore.logout();
+    }
 
     return Promise.reject(error);
   },

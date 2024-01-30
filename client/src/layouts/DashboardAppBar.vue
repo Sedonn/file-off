@@ -35,12 +35,11 @@
       vertical
     />
 
-    <v-btn icon="mdi-logout" class="ml-2" @click="onLogout" />
+    <v-btn icon="mdi-logout" class="ml-2" @click="userStore.logout" />
   </v-toolbar>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 import ChangeLanguageButton from '@/components/ChangeLanguageButton.vue';
@@ -48,13 +47,7 @@ import ChangeLanguageButton from '@/components/ChangeLanguageButton.vue';
 import { useUserStore } from '@/store/user';
 import { useUIController } from '@/store/ui';
 
-const router = useRouter();
 const { t } = useI18n();
 const userStore = useUserStore();
 const uiController = useUIController();
-
-const onLogout = () => {
-  router.push({ name: 'Login' });
-  userStore.logout();
-};
 </script>

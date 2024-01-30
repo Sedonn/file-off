@@ -10,12 +10,12 @@ import { redirectAuthenticatedUser } from './middleware/redirectAuthenticatedUse
 export const dashboardRoutes = {
   path: '/user',
   component: () => import('@/layouts/DashboardLayout.vue'),
-  beforeEnter: isAuthenticated,
   children: [
     {
       path: '/user',
       name: 'UserFiles',
       component: () => import('@/views/UserFilesView.vue'),
+      beforeEnter: isAuthenticated,
       meta: {
         pageTitleI18nKey: 'userFilesPage.title',
       },
@@ -24,6 +24,7 @@ export const dashboardRoutes = {
       path: '/user/downloads',
       name: 'UserDownloads',
       component: () => import('@/views/UserDownloadsView.vue'),
+      beforeEnter: isAuthenticated,
       meta: {
         pageTitleI18nKey: 'userDownloadsPage.title',
       },
