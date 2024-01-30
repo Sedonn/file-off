@@ -29,7 +29,9 @@ type TUserErrorCode =
   | 'REGISTER_FAILED'
   | 'AUTHORIZATION_FAILED';
 
-type TAPIErrorCode = TFileErrorCode | TUserErrorCode | 'UNKNOWN_ERROR';
+type TUnknownErrorCode = 'UNKNOWN_ERROR' | 'UNKNOWN_NETWORK_ERROR';
+
+type TAPIErrorCode = TFileErrorCode | TUserErrorCode | TUnknownErrorCode;
 
 declare module 'vue-i18n' {
   export interface DefineLocaleMessage {

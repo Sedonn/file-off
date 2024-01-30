@@ -23,7 +23,8 @@
     "PASSWORD_SHORT": "Password must be at least 8 letters long.",
     "REGISTER_FAILED": "Register failed.",
     "AUTHORIZATION_FAILED": "Wrong login or password.",
-    "UNKNOWN_ERROR": "Unknown error."
+    "UNKNOWN_ERROR": "Unknown error.",
+    "UNKNOWN_NETWORK_ERROR": "Unknown network error."
   },
 
   "validationErrors": {

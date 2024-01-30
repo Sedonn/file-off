@@ -34,6 +34,13 @@ onErrorCaptured((error: AxiosError<ErrorResponse> | Error) => {
     return false;
   }
 
+  if (error instanceof AxiosError) {
+    console.error(error);
+    toast.error(t(`APIErrors.UNKNOWN_NETWORK_ERROR`));
+
+    return false;
+  }
+
   if (error instanceof Error) {
     console.error(error);
     toast.error(t(`APIErrors.UNKNOWN_ERROR`));

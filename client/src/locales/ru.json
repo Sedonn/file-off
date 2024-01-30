@@ -23,7 +23,8 @@
     "PASSWORD_SHORT": "Пароль должен быть не менее 8 символов в длину.",
     "REGISTER_FAILED": "Регистрация провалена.",
     "AUTHORIZATION_FAILED": "Неправильный логин или пароль.",
-    "UNKNOWN_ERROR": "Неизвестная ошибка."
+    "UNKNOWN_ERROR": "Неизвестная ошибка.",
+    "UNKNOWN_NETWORK_ERROR": "Неизвестная ошибка сети."
   },
 
   "validationErrors": {
