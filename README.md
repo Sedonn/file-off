@@ -8,6 +8,7 @@ The web service for one time file exchange created with Vue.js and Express.js on
   - [Table of Contents](#table-of-contents)
   - [Motivation](#motivation)
   - [General info](#general-info)
+  - [Localization](#localization)
   - [Technologies](#technologies)
   - [Environment](#environment)
   - [Project Setup](#project-setup)
@@ -25,6 +26,13 @@ This is main docs about web-service for one time file exchange - File-off app.
 Frontend part docs is placed [here](https://github.com/Sedonn/file-off/tree/master/client).
 
 Backend part docs is placed [here](https://github.com/Sedonn/file-off/tree/master/api).
+
+## Localization
+
+The app uses the i18n library to provide localization. It supports these languages:
+
+- English
+- Russian
 
 ## Technologies
 
