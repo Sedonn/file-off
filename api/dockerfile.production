@@ -13,4 +13,4 @@ WORKDIR /app
 RUN rm -rf ./pre-build
 COPY package*.json ./
 RUN npm install --omit=dev
-CMD npm run start
+CMD ["npm", "run", "start"]
